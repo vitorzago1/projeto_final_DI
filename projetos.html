@@ -81,7 +81,200 @@
   <main id="conteudo" tabindex="-1">
     <div class="container py-5">
       <h1>Projetos</h1>
-      <p><mark class="em-construcao">[EM CONSTRUÇÃO — Etapa 2: cartões de projetos, pesquisa em tempo real e filtro por categoria em abas]</mark></p>
+      <p class="lead">Sites publicados e repositórios de código.</p>
+
+      <!-- ===== FILTROS: pesquisa + abas de categoria =====
+           Começam escondidos (hidden) e são mostrados por js/projetos.js: sem JavaScript eles
+           não funcionariam, e a lista completa de projetos continua visível logo abaixo. -->
+      <div class="filtros" hidden>
+
+        <!-- role="search" identifica a área de busca para o leitor de tela -->
+        <form class="pesquisa" role="search" aria-label="Pesquisar projetos">
+          <label class="form-label" for="pesquisa">Pesquisar projetos</label>
+          <!-- aria-describedby liga o campo ao texto de ajuda logo abaixo dele -->
+          <input class="form-control" type="search" id="pesquisa" autocomplete="off" aria-describedby="pesquisa-ajuda">
+          <p class="form-text" id="pesquisa-ajuda">Procure por nome, tecnologia ou tag. A lista muda enquanto você digita.</p>
+        </form>
+
+        <!-- Abas de categoria. role="tablist", "tab" e "tabpanel" dizem ao leitor de tela que é
+             um conjunto de abas; aria-selected marca a aba escolhida. No teclado: Tab entra nas
+             abas e as setas ← → trocam de aba. -->
+        <div class="abas" role="tablist" aria-label="Filtrar por categoria">
+          <button class="aba" type="button" role="tab" id="aba-todos" data-categoria="todos" aria-selected="true" aria-controls="painel-projetos">Todos</button>
+          <button class="aba" type="button" role="tab" id="aba-sites" data-categoria="sites" aria-selected="false" aria-controls="painel-projetos" tabindex="-1">Sites</button>
+          <button class="aba" type="button" role="tab" id="aba-repositorios" data-categoria="repositorios" aria-selected="false" aria-controls="painel-projetos" tabindex="-1">Repositórios</button>
+        </div>
+      </div>
+
+      <!-- Painel das abas: a lista de projetos, filtrada pela aba e pela pesquisa -->
+      <div id="painel-projetos" role="tabpanel" aria-labelledby="aba-todos">
+
+        <!-- role="status": o leitor de tela lê este texto sempre que ele muda -->
+        <p class="filtro-situacao" id="filtro-situacao" role="status"></p>
+
+        <!-- Cada <li> tem data-categoria, usado pelas abas. A pesquisa lê o título, as
+             tecnologias e as tags direto do texto de cada cartão. -->
+        <ul class="lista-projetos row g-4" role="list">
+
+          <li class="col-md-6 col-lg-4" data-categoria="sites">
+            <article class="projeto">
+              <img class="projeto-imagem" src="img/projetos/escola-nacional-de-ballet-640.jpg"
+                   srcset="img/projetos/escola-nacional-de-ballet-640.jpg 640w, img/projetos/escola-nacional-de-ballet-1280.jpg 1280w"
+                   sizes="(min-width: 992px) 30vw, (min-width: 768px) 45vw, 92vw"
+                   width="640" height="400"
+                   alt="Página inicial do site da Escola Nacional de Ballet, com um palco escuro iluminado por um foco de luz.">
+              <div class="projeto-corpo">
+                <p class="projeto-categoria">Site</p>
+                <h2 class="projeto-titulo">Escola Nacional de Ballet</h2>
+                <p class="projeto-descricao">Site de uma escola pública de ballet em Brasília. <mark class="a-preencher">[PREENCHER: o que você fez neste projeto]</mark></p>
+                <ul class="projeto-tecnologias etiquetas" role="list" aria-label="Tecnologias">
+                  <li class="etiqueta">Next.js</li>
+                  <li class="etiqueta">React</li>
+                </ul>
+                <ul class="projeto-tags" role="list" aria-label="Tags">
+                  <li>#ballet</li>
+                  <li>#educação</li>
+                </ul>
+                <a class="projeto-link" href="https://escolanacionaldeballet.com.br">Visitar o site<span class="visually-hidden"> da Escola Nacional de Ballet</span></a>
+              </div>
+            </article>
+          </li>
+
+          <li class="col-md-6 col-lg-4" data-categoria="sites">
+            <article class="projeto">
+              <img class="projeto-imagem" src="img/projetos/ana-zago-advocacia-640.jpg"
+                   srcset="img/projetos/ana-zago-advocacia-640.jpg 640w, img/projetos/ana-zago-advocacia-1280.jpg 1280w"
+                   sizes="(min-width: 992px) 30vw, (min-width: 768px) 45vw, 92vw"
+                   width="640" height="400"
+                   alt="Página inicial do site Ana Zago Advocacia, com o título “Direito para proteger o que importa.” e a foto de uma advogada.">
+              <div class="projeto-corpo">
+                <p class="projeto-categoria">Site</p>
+                <h2 class="projeto-titulo">Ana Zago Advocacia</h2>
+                <p class="projeto-descricao">Site de um escritório de advocacia de Brasília. <mark class="a-preencher">[PREENCHER: o que você fez neste projeto]</mark></p>
+                <ul class="projeto-tecnologias etiquetas" role="list" aria-label="Tecnologias">
+                  <li class="etiqueta">HTML</li>
+                  <li class="etiqueta">CSS</li>
+                  <li class="etiqueta">JavaScript</li>
+                </ul>
+                <ul class="projeto-tags" role="list" aria-label="Tags">
+                  <li>#advocacia</li>
+                  <li>#direito</li>
+                </ul>
+                <a class="projeto-link" href="https://anazagoadvocacia.com">Visitar o site<span class="visually-hidden"> Ana Zago Advocacia</span></a>
+              </div>
+            </article>
+          </li>
+
+          <li class="col-md-6 col-lg-4" data-categoria="sites">
+            <article class="projeto">
+              <img class="projeto-imagem" src="img/projetos/portfolio-640.jpg"
+                   srcset="img/projetos/portfolio-640.jpg 640w, img/projetos/portfolio-1280.jpg 1280w"
+                   sizes="(min-width: 992px) 30vw, (min-width: 768px) 45vw, 92vw"
+                   width="640" height="400"
+                   alt="Página inicial deste portfólio no tema escuro, com o painel de acessibilidade aberto.">
+              <div class="projeto-corpo">
+                <p class="projeto-categoria">Site</p>
+                <h2 class="projeto-titulo">Este portfólio</h2>
+                <p class="projeto-descricao">Projeto final da disciplina Desenvolvimento de Interfaces (CEUB): quatro páginas, temas claro e escuro e painel de acessibilidade, seguindo a WCAG 2.1 nível AA.</p>
+                <ul class="projeto-tecnologias etiquetas" role="list" aria-label="Tecnologias">
+                  <li class="etiqueta">HTML</li>
+                  <li class="etiqueta">CSS</li>
+                  <li class="etiqueta">JavaScript</li>
+                  <li class="etiqueta">Bootstrap</li>
+                </ul>
+                <ul class="projeto-tags" role="list" aria-label="Tags">
+                  <li>#acessibilidade</li>
+                  <li>#faculdade</li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <!-- Repositórios: não têm imagem; a capa mostra a linguagem principal.
+               aria-hidden na capa: a linguagem já está na lista de tecnologias. -->
+          <li class="col-md-6 col-lg-4" data-categoria="repositorios">
+            <article class="projeto">
+              <div class="projeto-capa" aria-hidden="true">Python</div>
+              <div class="projeto-corpo">
+                <p class="projeto-categoria">Repositório</p>
+                <h2 class="projeto-titulo">tasktracker-projeto</h2>
+                <p class="projeto-descricao"><mark class="a-preencher">[PREENCHER: o que este projeto faz]</mark></p>
+                <ul class="projeto-tecnologias etiquetas" role="list" aria-label="Tecnologias">
+                  <li class="etiqueta">Python</li>
+                </ul>
+                <ul class="projeto-tags" role="list" aria-label="Tags">
+                  <li>#tarefas</li>
+                </ul>
+                <a class="projeto-link" href="https://github.com/vitorzago1/tasktracker-projeto">Ver o código no GitHub<span class="visually-hidden">: tasktracker-projeto</span></a>
+              </div>
+            </article>
+          </li>
+
+          <li class="col-md-6 col-lg-4" data-categoria="repositorios">
+            <article class="projeto">
+              <div class="projeto-capa" aria-hidden="true">Python</div>
+              <div class="projeto-corpo">
+                <p class="projeto-categoria">Repositório</p>
+                <h2 class="projeto-titulo">agenda-de-contatos</h2>
+                <p class="projeto-descricao"><mark class="a-preencher">[PREENCHER: o que este projeto faz]</mark></p>
+                <ul class="projeto-tecnologias etiquetas" role="list" aria-label="Tecnologias">
+                  <li class="etiqueta">Python</li>
+                </ul>
+                <ul class="projeto-tags" role="list" aria-label="Tags">
+                  <li>#agenda</li>
+                </ul>
+                <a class="projeto-link" href="https://github.com/vitorzago1/agenda-de-contatos">Ver o código no GitHub<span class="visually-hidden">: agenda-de-contatos</span></a>
+              </div>
+            </article>
+          </li>
+
+          <li class="col-md-6 col-lg-4" data-categoria="repositorios">
+            <article class="projeto">
+              <div class="projeto-capa" aria-hidden="true">Python</div>
+              <div class="projeto-corpo">
+                <p class="projeto-categoria">Repositório</p>
+                <h2 class="projeto-titulo">calculadora-python</h2>
+                <p class="projeto-descricao"><mark class="a-preencher">[PREENCHER: o que este projeto faz]</mark></p>
+                <ul class="projeto-tecnologias etiquetas" role="list" aria-label="Tecnologias">
+                  <li class="etiqueta">Python</li>
+                </ul>
+                <ul class="projeto-tags" role="list" aria-label="Tags">
+                  <li>#calculadora</li>
+                </ul>
+                <a class="projeto-link" href="https://github.com/vitorzago1/calculadora-python">Ver o código no GitHub<span class="visually-hidden">: calculadora-python</span></a>
+              </div>
+            </article>
+          </li>
+
+          <li class="col-md-6 col-lg-4" data-categoria="repositorios">
+            <article class="projeto">
+              <div class="projeto-capa" aria-hidden="true">C</div>
+              <div class="projeto-corpo">
+                <p class="projeto-categoria">Repositório</p>
+                <h2 class="projeto-titulo">jogo-da-forca-c</h2>
+                <p class="projeto-descricao"><mark class="a-preencher">[PREENCHER: o que este projeto faz]</mark></p>
+                <ul class="projeto-tecnologias etiquetas" role="list" aria-label="Tecnologias">
+                  <li class="etiqueta">C</li>
+                </ul>
+                <ul class="projeto-tags" role="list" aria-label="Tags">
+                  <li>#jogo</li>
+                </ul>
+                <a class="projeto-link" href="https://github.com/vitorzago1/jogo-da-forca-c">Ver o código no GitHub<span class="visually-hidden">: jogo-da-forca-c</span></a>
+              </div>
+            </article>
+          </li>
+
+        </ul>
+
+        <!-- Aviso de "nenhum resultado". Fica escondido até a pesquisa não encontrar nada.
+             Diz o que aconteceu e oferece uma saída (o botão). -->
+        <div class="sem-resultado" id="sem-resultado" hidden>
+          <h2>Nenhum projeto encontrado</h2>
+          <p id="sem-resultado-texto"></p>
+          <button class="btn btn-marca" type="button" id="limpar-filtros">Limpar a pesquisa e ver todos</button>
+        </div>
+
+      </div>
     </div>
   </main>
 
@@ -128,5 +321,8 @@
 
   <!-- Painel de acessibilidade: cria o botão fixo e o painel, e reage às escolhas -->
   <script src="js/acessibilidade.js" defer></script>
+
+  <!-- Filtros desta página: pesquisa em tempo real e abas de categoria -->
+  <script src="js/projetos.js" defer></script>
 </body>
 </html>

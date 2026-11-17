@@ -14,8 +14,8 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 | Etapa | O que entrega | Tag | Commit | Situação |
 |------:|---------------|-----|--------|----------|
 | 0 | Pastas, Git, README, cabeçalho e rodapé, proposta de paleta | `v0.0` | `af6ec56` | pronta |
-| 1 | Variáveis de cor e tipografia, tema claro/escuro, painel de acessibilidade | `v0.1` | ver histórico | pronta |
-| 2 | Início (carrossel + cartões) e Projetos (cartões + pesquisa + abas) | `v0.2` | — | a fazer |
+| 1 | Variáveis de cor e tipografia, tema claro/escuro, painel de acessibilidade | `v0.1` | `7ea5a56` | pronta |
+| 2 | Início (carrossel + cartões) e Projetos (cartões + pesquisa + abas) | `v0.2` | ver histórico | pronta — textos marcados com `[PREENCHER]` |
 | 3 | Contato e Login com validação | `v0.3` | — | a fazer |
 | 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | — | a fazer |
 | 5 | Documentação, prints, GitHub Pages | `v0.5` | — | a fazer |
@@ -58,17 +58,21 @@ O script lê as cores de `css/estilo.css` e gera `docs/contraste.md`.
 │   └── estilo.css    Estilos do site: variáveis de cor, tipografia, componentes
 ├── js/
 │   ├── preferencias.js     Guarda e aplica tema, tamanho do texto etc. (roda antes de a página aparecer)
-│   └── acessibilidade.js   Painel de acessibilidade (botão fixo em todas as páginas)
+│   ├── acessibilidade.js   Painel de acessibilidade (botão fixo em todas as páginas)
+│   ├── carrossel.js        Carrossel da página Início (pausar, setas, bolinhas)
+│   └── projetos.js         Pesquisa e abas da página Projetos
 ├── fontes/
 │   ├── atkinson-hyperlegible-next.woff2   Fonte do site
 │   └── LICENCA-OFL.txt                    Licença da fonte
 ├── img/
-│   └── favicon.svg   Ícone da aba do navegador
+│   ├── favicon.svg   Ícone da aba do navegador
+│   └── projetos/     Prints dos sites, em duas larguras (640 e 1280 pixels)
 ├── scripts/
 │   └── contraste.js  Calcula o contraste das cores e gera docs/contraste.md
 └── docs/             Material para o relatório
     ├── cores.md        Paleta e justificativa de cada cor
     ├── contraste.md    Contraste de cada par texto/fundo (gerado pelo script)
+    ├── ferramentas.md  Ferramentas, bibliotecas, créditos de imagens e IAs usadas
     ├── paleta.html     Página que mostra a paleta aplicada, lendo o CSS do site
     ├── paleta.png      Imagem da paleta
     └── prints/         Capturas de tela das páginas (Etapa 5)
@@ -81,13 +85,13 @@ O script lê as cores de `css/estilo.css` e gera `docs/contraste.md`.
 | HTML5, CSS3, JavaScript | — | Base do site, sem framework e sem etapa de build |
 | [Bootstrap](https://getbootstrap.com/) | 5.3.9 (CDN jsDelivr, versão fixa, com `integrity`) | Grade responsiva, menu, base dos botões |
 | [Atkinson Hyperlegible Next](https://www.brailleinstitute.org/freefont/) | arquivo do pacote Fontsource 5.3.0, licença OFL 1.1 | Fonte do site, servida da pasta `fontes/` |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2, licença MIT | Três ícones colados como SVG (menu, acessibilidade, fechar) |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2, licença MIT | Sete ícones colados como SVG (menu, acessibilidade, fechar, pausar, reproduzir, setas) |
 | Git | — | Histórico de versões: um commit e uma tag por etapa |
 | Node.js | 22 | Rodar `scripts/contraste.js` |
 | [Playwright](https://playwright.dev/) | — | Testes no navegador e capturas de tela |
 | [axe-core](https://github.com/dequelabs/axe-core) | 4.14.1 | Verificação automática de acessibilidade (o mesmo motor do Lighthouse) |
 
-A lista completa, com créditos de imagens e IAs usadas, ficará em `docs/ferramentas.md` (Etapa 5).
+A lista completa, com créditos de imagens e IAs usadas, está em `docs/ferramentas.md`.
 
 ## Construção passo a passo
 
@@ -126,7 +130,7 @@ largura. Conferido: nenhum erro no console, sem rolagem horizontal, o primeiro T
 link de pular, o Enter leva o foco ao `main`, e o menu do celular abre e fecha atualizando
 `aria-expanded`.
 
-### Etapa 1 — Cores, tipografia, temas e painel de acessibilidade (tag `v0.1`)
+### Etapa 1 — Cores, tipografia, temas e painel de acessibilidade (tag `v0.1`, commit `7ea5a56`)
 
 A paleta foi aprovada com um ajuste: no alto contraste, o texto mantém as mesmas cores dos
 temas claro e escuro (só fundos, bordas e cores de marca ficam mais fortes).
@@ -194,3 +198,72 @@ Resultados:
 
 Limitação conhecida: sem JavaScript o site aparece no tema claro e sem o painel. A redução
 de animações pedida pelo sistema operacional funciona mesmo assim, porque também está no CSS.
+
+### Etapa 2 — Início e Projetos (tag `v0.2`)
+
+Conteúdo: os textos sobre o Vitor que ainda não foram escritos aparecem como
+`[PREENCHER: ...]`, destacados em âmbar. O que está preenchido vem de fontes verificáveis:
+os dois sites publicados, os repositórios públicos do GitHub e este próprio projeto.
+
+O que foi feito na página **Início** (`index.html`):
+
+1. **Apresentação.** Nome em destaque, a frase "Desenvolvimento web e IA" e dois botões:
+   "Ver projetos" (âmbar, a ação principal da tela) e "Fale comigo" (contorno).
+2. **Carrossel de imagens** (`js/carrossel.js`), com prints dos dois sites e deste portfólio.
+   - Usa o componente *carousel* do Bootstrap para deslizar; quando andar e quando parar é
+     decidido pelo script do site.
+   - Passa sozinho a cada 6 segundos e espera enquanto o mouse está em cima ou o foco do
+     teclado está dentro dele.
+   - **Botão Pausar/Reproduzir** (WCAG 2.2.2). É o primeiro item do carrossel no HTML,
+     para ser o primeiro a receber foco.
+   - Setas, bolinhas e as teclas ← → trocam de imagem. A bolinha da imagem atual tem
+     `aria-current="true"` e fica mais larga e preenchida.
+   - Os botões ficam abaixo das imagens, não por cima: o contraste deles não depende da
+     imagem que está passando.
+   - `aria-live` fica em `off` enquanto o carrossel anda sozinho e passa a `polite` quando
+     está pausado, para o leitor de tela anunciar a imagem ao trocar manualmente.
+   - Começa pausado se "Reduzir animações" estiver ligado no painel ou no sistema; ligar a
+     opção no painel pausa na hora.
+   - Imagens com `alt` descritivo, `width` e `height` (a página não "pula" ao carregar),
+     `srcset` (o celular baixa a versão menor) e `loading="lazy"` nas que não aparecem de início.
+3. **"Como eu trabalho".** Quatro cartões em lista ordenada (`<ol>`), porque são passos em
+   sequência. O número de cada cartão é desenhado pelo CSS (contador).
+4. **Projetos em destaque.** Três cartões e o link "Ver todos os projetos".
+
+O que foi feito na página **Projetos** (`projetos.html` e `js/projetos.js`):
+
+1. **Sete cartões** escritos direto no HTML: três sites e quatro repositórios públicos. Cada
+   cartão tem categoria, título, descrição, tecnologias, tags e link.
+2. **Pesquisa em tempo real.** Filtra a cada tecla, olhando título, tecnologias e tags.
+   Ignora maiúsculas e acentos ("educacao" encontra "#educação") e aceita mais de uma
+   palavra ("python calc").
+3. **Abas de categoria** (Todos, Sites, Repositórios), no padrão de abas da WAI-ARIA:
+   `role="tablist"`, `role="tab"` com `aria-selected` e `role="tabpanel"`. No teclado, as
+   setas ← → trocam de aba, Home e End vão à primeira e à última.
+4. **Pesquisa e aba funcionam juntas**: o cartão aparece só se passar nos dois filtros.
+5. **Frase de situação** ("Mostrando 3 de 7 projetos") com `role="status"`, lida pelo
+   leitor de tela a cada mudança.
+6. **Aviso "Nenhum projeto encontrado"**, que diz o que foi procurado, sugere o que fazer e
+   traz o botão "Limpar a pesquisa e ver todos". Ao limpar, o foco vai para o campo.
+7. **Segurança.** O texto digitado entra no aviso por `textContent`, nunca por `innerHTML`:
+   é tratado como texto puro, não como código.
+8. **Sem JavaScript** os filtros não aparecem e a lista completa continua visível.
+
+Também nesta etapa: estilos de campos de formulário com as cores do site (borda com
+contraste de 3:1), que serão reaproveitados na Etapa 3.
+
+Resultados:
+
+- **Bootstrap direto do CDN:** conferido nesta etapa. O arquivo carregou com o atributo
+  `integrity` e o navegador aceitou (versão 5.3.9).
+- **Teste funcional (Playwright), 47 verificações**, todas aprovadas: avanço automático,
+  pausar e reproduzir, setas, bolinhas, teclado, espera com o mouse em cima, redução de
+  animações pelo painel e pelo sistema; pesquisa por título, tecnologia e tag, abas pelo
+  mouse e pelo teclado, combinação dos dois filtros, aviso de nenhum resultado e botão de limpar.
+- **Problema encontrado e corrigido:** no celular, com o texto em 115% ou 130%, os botões
+  do carrossel não cabiam em uma linha e a página ganhava rolagem lateral. Agora a
+  navegação desce para a linha de baixo quando falta espaço. Conferido em 320px e 390px de
+  largura, com o texto em 100%, 115% e 130%.
+- **Contraste:** 128 pares conferidos (32 por tema), nenhum reprovado no AA.
+- **axe-core:** nenhuma violação em 72 verificações (4 páginas × 4 temas × 2 larguras,
+  incluindo o aviso de nenhum resultado e o painel de acessibilidade aberto).

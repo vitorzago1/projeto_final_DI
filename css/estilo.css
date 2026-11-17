@@ -21,9 +21,15 @@
     9. Botões
    10. Cabeçalho
    11. Rodapé
-   12. Painel de acessibilidade
-   13. Preferências: tamanho do texto, sublinhar links, reduzir animações
-   14. Marcadores de conteúdo pendente
+   12. Campos de formulário
+   13. Início: apresentação
+   14. Carrossel
+   15. Seções da página Início e "Como eu trabalho"
+   16. Cartões de projeto
+   17. Filtros da página Projetos
+   18. Painel de acessibilidade
+   19. Preferências: tamanho do texto, sublinhar links, reduzir animações
+   20. Marcadores de conteúdo pendente
    ========================================================================== */
 
 
@@ -278,6 +284,7 @@ input:focus-visible,
 .btn:focus-visible,
 .nav-link:focus-visible,
 .navbar-toggler:focus-visible,
+.form-control:focus-visible,
 .btn-check:focus-visible + .btn {
   outline: 3px solid var(--cor-foco);
   outline-offset: 2px;
@@ -415,7 +422,6 @@ input:focus-visible,
 /* 11. Rodapé
    -------------------------------------------------------------------------- */
 .rodape {
-  margin-top: 3rem;
   background: var(--cor-superficie-2);
 }
 
@@ -456,7 +462,424 @@ input:focus-visible,
 }
 
 
-/* 12. Painel de acessibilidade
+/* 12. Campos de formulário
+   --------------------------------------------------------------------------
+   O formato vem da classe .form-control do Bootstrap; aqui entram as cores.
+   A borda usa --cor-borda, que tem contraste de pelo menos 3:1 com o fundo
+   (WCAG 1.4.11: o limite de um campo precisa ser visível). */
+.form-label {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.form-control,
+.form-control:focus {
+  background-color: var(--cor-superficie);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+  box-shadow: none;   /* o foco é mostrado pelo contorno da seção 7 */
+}
+
+.form-control::placeholder {
+  color: var(--cor-texto-2);
+}
+
+.form-text {
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
+
+/* 13. Início: apresentação
+   --------------------------------------------------------------------------
+   O nome é o elemento mais forte da página: grande, extranegrito e com as
+   letras bem juntas. O resto da tela fica discreto em volta dele. */
+.apresentacao {
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+}
+
+.apresentacao h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2.6rem, 1.6rem + 3.2vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+
+/* 14. Carrossel
+   --------------------------------------------------------------------------
+   Os botões ficam ABAIXO das imagens, e não por cima delas como no carrossel
+   padrão do Bootstrap: assim o contraste dos botões não depende da imagem
+   que está passando.
+
+   No HTML a ordem é: botão de pausar, imagens, navegação (o botão de pausar
+   precisa ser o primeiro para o teclado). Na tela, "order: -1" sobe as
+   imagens para cima; embaixo ficam o botão de pausar (esquerda) e a
+   navegação (direita). Se não couberem lado a lado — tela estreita ou texto
+   ampliado — flex-wrap joga a navegação para a linha de baixo. */
+.carrossel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+
+.carrossel .carousel {
+  order: -1;
+  flex: 0 0 100%;   /* ocupa a linha inteira */
+  min-width: 0;
+}
+
+.carrossel .carousel-inner {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda-suave);
+  border-radius: 0.75rem;
+}
+
+/* Todas as imagens ocupam a mesma proporção (16:10); se alguma tiver outro
+   formato, object-fit corta o excesso em vez de deformar. */
+.carrossel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+}
+
+.carrossel-legenda {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: var(--tamanho-pequeno);
+}
+
+/* No celular a legenda pode ocupar duas linhas. Reservar a altura de duas
+   linhas evita que os botões subam e desçam a cada troca de imagem. */
+@media (max-width: 575.98px) {
+  .carrossel-legenda {
+    min-height: calc(3.2em + 1.5rem);
+  }
+}
+
+.carrossel-pausa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* O botão tem os dois ícones; o CSS mostra só o da ação disponível */
+.carrossel-pausa .icone-reproduzir,
+.carrossel-pausa.esta-pausado .icone-pausar {
+  display: none;
+}
+
+.carrossel-pausa.esta-pausado .icone-reproduzir {
+  display: inline;
+}
+
+.carrossel-navegacao {
+  margin-left: auto;   /* encosta a navegação na direita */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carrossel-seta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;    /* 44px: fácil de tocar com o dedo */
+  height: 2.75rem;
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  border: 2px solid var(--cor-borda);
+  border-radius: 50%;
+}
+
+.carrossel-seta:hover {
+  color: var(--cor-marca);
+  border-color: var(--cor-marca);
+}
+
+.carrossel-pontos {
+  display: flex;
+  align-items: center;
+}
+
+/* A bolinha visível é pequena, mas o botão em volta dela é maior, para
+   ser fácil de acertar com o dedo. */
+.carrossel-ponto {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2.75rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.carrossel-ponto::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--cor-borda);
+  border-radius: 999px;
+  transition: width 0.15s;
+}
+
+/* A bolinha da imagem atual fica preenchida e mais larga:
+   a diferença é de forma, não só de cor. */
+.carrossel-ponto[aria-current="true"]::before {
+  width: 1.5rem;
+  background: var(--cor-marca);
+  border-color: var(--cor-marca);
+}
+
+
+/* 15. Seções da página Início e "Como eu trabalho"
+   -------------------------------------------------------------------------- */
+.secao {
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* Faixa com fundo diferente, para separar uma seção da outra */
+.secao-faixa {
+  background: var(--cor-superficie-2);
+  border-block: 1px solid var(--cor-borda-suave);
+}
+
+.secao h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* Título da seção à esquerda e um link à direita, na mesma linha */
+.secao-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.secao-topo h2 {
+  margin-bottom: 0;
+}
+
+.secao-topo a {
+  font-weight: 600;
+}
+
+/* Passos numerados. O número não está no HTML: o CSS conta os itens da
+   lista (counter) e escreve o número em cada cartão. auto-fit coloca
+   quantos cartões couberem por linha, cada um com pelo menos 14rem. */
+.passos {
+  counter-reset: passo;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.passo {
+  counter-increment: passo;
+  padding: 1.25rem;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda-suave);
+  border-top: 4px solid var(--cor-marca);
+  border-radius: 0.5rem;
+}
+
+.passo::before {
+  content: counter(passo);
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--cor-marca);
+}
+
+.passo-titulo {
+  font-size: var(--tamanho-lead);
+}
+
+.passo p {
+  margin: 0;
+}
+
+
+/* 16. Cartões de projeto
+   --------------------------------------------------------------------------
+   Usados em "Projetos em destaque" (Início) e na página Projetos.
+   A lista usa a grade do Bootstrap (row + col-*): 1 cartão por linha no
+   celular, 2 no tablet e 3 no computador. */
+.lista-projetos {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+/* height: 100% + coluna flexível: os cartões da mesma linha ficam com a
+   mesma altura e o link vai sempre para o fim do cartão. */
+.projeto {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda-suave);
+  border-radius: 0.75rem;
+  overflow: hidden;   /* a imagem acompanha os cantos arredondados */
+}
+
+.projeto-imagem {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border-bottom: 1px solid var(--cor-borda-suave);
+}
+
+/* Capa dos repositórios, que não têm imagem: uma faixa com a linguagem principal */
+.projeto-capa {
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--cor-superficie-2);
+  color: var(--cor-marca);
+  border-bottom: 1px solid var(--cor-borda-suave);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.projeto-corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.625rem;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.projeto-corpo > * {
+  margin: 0;
+}
+
+.projeto-categoria {
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
+.projeto-titulo {
+  font-size: var(--tamanho-lead);
+  overflow-wrap: anywhere;   /* nomes longos de repositório quebram em vez de vazar do cartão */
+}
+
+/* Tecnologias: etiquetas em forma de pílula */
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  padding: 0;
+  list-style: none;
+}
+
+.etiqueta {
+  padding: 0.0625rem 0.625rem;
+  font-size: var(--tamanho-pequeno);
+  background: var(--cor-superficie-2);
+  border: 1px solid var(--cor-borda-suave);
+  border-radius: 999px;
+}
+
+/* Tags: texto simples, com # na frente */
+.projeto-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  padding: 0;
+  list-style: none;
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
+.projeto-link {
+  align-self: flex-start;
+  margin-top: auto;   /* empurra o link para o fim do cartão */
+  padding-top: 0.25rem;
+  font-weight: 600;
+}
+
+
+/* 17. Filtros da página Projetos: pesquisa, abas e aviso de "nenhum resultado"
+   -------------------------------------------------------------------------- */
+.filtros {
+  margin-top: 1.5rem;
+}
+
+.pesquisa {
+  max-width: 32rem;
+  margin-bottom: 1.5rem;
+}
+
+/* A linha embaixo das abas é a borda de baixo do conjunto */
+.abas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.aba {
+  min-height: 2.75rem;
+  margin-bottom: -1px;   /* a aba desce 1px e cobre a linha de baixo */
+  padding: 0.5rem 1.125rem;
+  background: transparent;
+  color: var(--cor-texto-2);
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: 600;
+}
+
+.aba:hover {
+  background: var(--cor-superficie-2);
+  color: var(--cor-texto);
+}
+
+/* Aba escolhida: ganha contorno, "abre" a linha de baixo e recebe uma faixa
+   na cor de marca em cima. A diferença é de forma, não só de cor. */
+.aba[aria-selected="true"] {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  border-color: var(--cor-borda);
+  box-shadow: inset 0 4px 0 var(--cor-marca);
+}
+
+/* Frase "Mostrando X de Y projetos". A altura mínima reserva o espaço. */
+.filtro-situacao {
+  min-height: 1.6em;
+  margin: 1rem 0;
+  color: var(--cor-texto-2);
+}
+
+.sem-resultado {
+  max-width: 36rem;
+  padding: 2rem 1.5rem;
+  background: var(--cor-superficie);
+  border: 1px dashed var(--cor-borda);
+  border-radius: 0.75rem;
+}
+
+.sem-resultado h2 {
+  font-size: var(--tamanho-h3);
+}
+
+
+/* 18. Painel de acessibilidade
    --------------------------------------------------------------------------
    O HTML do painel é criado por js/acessibilidade.js (sem JavaScript o
    painel não teria função, então ele nem aparece).
@@ -649,7 +1072,7 @@ input:focus-visible,
 }
 
 
-/* 13. Preferências: tamanho do texto, sublinhar links, reduzir animações
+/* 19. Preferências: tamanho do texto, sublinhar links, reduzir animações
    --------------------------------------------------------------------------
    js/preferencias.js escreve estes atributos no <html> conforme as escolhas
    feitas no painel de acessibilidade. */
@@ -692,7 +1115,7 @@ html[data-fonte="130"] { font-size: 130%; }
 }
 
 
-/* 14. Marcadores de conteúdo pendente
+/* 20. Marcadores de conteúdo pendente
    --------------------------------------------------------------------------
    [EM CONSTRUÇÃO ...] e [PREENCHER: ...] aparecem destacados para ninguém
    esquecer de substituir antes da entrega. */

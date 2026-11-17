@@ -63,15 +63,15 @@ const PARES = [
   // Texto
   { uso: 'Texto corrido na página', frente: '--cor-texto', fundo: '--cor-fundo', tipo: 'texto' },
   { uso: 'Texto no cabeçalho, em cartões e no painel', frente: '--cor-texto', fundo: '--cor-superficie', tipo: 'texto' },
-  { uso: 'Texto no rodapé', frente: '--cor-texto', fundo: '--cor-superficie-2', tipo: 'texto' },
-  { uso: 'Texto secundário na página', frente: '--cor-texto-2', fundo: '--cor-fundo', tipo: 'texto' },
-  { uso: 'Texto secundário no cabeçalho e no painel (itens do menu, notas)', frente: '--cor-texto-2', fundo: '--cor-superficie', tipo: 'texto' },
+  { uso: 'Texto no rodapé, nas etiquetas de tecnologia e na faixa "Como eu trabalho"', frente: '--cor-texto', fundo: '--cor-superficie-2', tipo: 'texto' },
+  { uso: 'Texto secundário na página (abas não escolhidas, frase "Mostrando X de Y")', frente: '--cor-texto-2', fundo: '--cor-fundo', tipo: 'texto' },
+  { uso: 'Texto secundário no cabeçalho, no painel e nos cartões (itens do menu, notas, categoria e tags)', frente: '--cor-texto-2', fundo: '--cor-superficie', tipo: 'texto' },
   { uso: 'Texto secundário no rodapé (direitos autorais)', frente: '--cor-texto-2', fundo: '--cor-superficie-2', tipo: 'texto' },
 
   // Marca
   { uso: 'Link na página', frente: '--cor-marca', fundo: '--cor-fundo', tipo: 'texto' },
-  { uso: 'Link e botão de contorno no cabeçalho e no painel', frente: '--cor-marca', fundo: '--cor-superficie', tipo: 'texto' },
-  { uso: 'Link no rodapé', frente: '--cor-marca', fundo: '--cor-superficie-2', tipo: 'texto' },
+  { uso: 'Link e botão de contorno no cabeçalho, no painel e nos cartões; número dos passos', frente: '--cor-marca', fundo: '--cor-superficie', tipo: 'texto' },
+  { uso: 'Link no rodapé e capa dos repositórios', frente: '--cor-marca', fundo: '--cor-superficie-2', tipo: 'texto' },
   { uso: 'Link com o mouse em cima, na página', frente: '--cor-marca-hover', fundo: '--cor-fundo', tipo: 'texto' },
   { uso: 'Link com o mouse em cima, no cabeçalho e no painel', frente: '--cor-marca-hover', fundo: '--cor-superficie', tipo: 'texto' },
   { uso: 'Link com o mouse em cima, no rodapé', frente: '--cor-marca-hover', fundo: '--cor-superficie-2', tipo: 'texto' },
@@ -93,10 +93,11 @@ const PARES = [
   { uso: 'Mensagem de erro na caixa de aviso', frente: '--cor-erro', fundo: '--cor-erro-fundo', tipo: 'texto' },
 
   // Bordas, ícones e foco (mínimo 3:1)
-  { uso: 'Borda de campos e controles na página', frente: '--cor-borda', fundo: '--cor-fundo', tipo: 'grafico' },
+  { uso: 'Borda de campos e controles na página (campo de pesquisa, abas, setas e bolinhas do carrossel)', frente: '--cor-borda', fundo: '--cor-fundo', tipo: 'grafico' },
   { uso: 'Borda de campos, do interruptor e do botão do menu', frente: '--cor-borda', fundo: '--cor-superficie', tipo: 'grafico' },
   { uso: 'Borda de controles no rodapé', frente: '--cor-borda', fundo: '--cor-superficie-2', tipo: 'grafico' },
   { uso: 'Interruptor ligado e opção escolhida (preenchimento)', frente: '--cor-marca', fundo: '--cor-superficie', tipo: 'grafico' },
+  { uso: 'Bolinha da imagem atual no carrossel e faixa da aba escolhida', frente: '--cor-marca', fundo: '--cor-fundo', tipo: 'grafico' },
   { uso: 'Contorno de foco na página', frente: '--cor-foco', fundo: '--cor-fundo', tipo: 'grafico' },
   { uso: 'Contorno de foco no cabeçalho e no painel', frente: '--cor-foco', fundo: '--cor-superficie', tipo: 'grafico' },
   { uso: 'Contorno de foco no rodapé', frente: '--cor-foco', fundo: '--cor-superficie-2', tipo: 'grafico' }
