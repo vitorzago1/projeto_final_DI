@@ -120,28 +120,60 @@
     filtrar();
   }
 
-  abas.forEach(function (aba, indice) {
+  abas.forEach(function (aba) {
     aba.addEventListener('click', function () {
       escolherAba(aba);
-      // Safari e Firefox no Mac não dão foco a um botão clicado com o mouse.
-      // Dar o foco aqui faz as setas do teclado funcionarem logo depois do clique.
-      aba.focus();
+      aba.focus();   // leva o foco para a aba clicada (nem todo navegador faz isso sozinho)
+    });
+  });
+
+  /* Teclado: ← → trocam de aba; Home vai à primeira e End à última.
+
+     O padrão é as setas agirem quando o foco está em uma aba. Só que, no Mac,
+     o Safari e o Firefox não dão foco a um botão clicado com o mouse: depois
+     do clique o foco fica "em lugar nenhum" e as setas não teriam onde agir.
+
+     Por isso as teclas são ouvidas na página inteira, e valem em dois casos:
+     (a) o foco está em uma aba;
+     (b) a pessoa acabou de clicar em uma aba e o foco não está em nenhum
+         outro elemento.
+     Em qualquer outro lugar (campo de pesquisa, links, painel de
+     acessibilidade) as setas continuam fazendo o que sempre fazem. */
+  let abasEmUso = false;   // true enquanto as abas são o último lugar em que a pessoa clicou ou pôs o foco
+
+  document.addEventListener('mousedown', function (evento) {
+    abasEmUso = evento.target instanceof Element && evento.target.closest('.aba') !== null;
+  });
+
+  document.addEventListener('focusin', function (evento) {
+    abasEmUso = abas.includes(evento.target);
+  });
+
+  document.addEventListener('keydown', function (evento) {
+    if (!abasEmUso) return;
+    // Com Command, Ctrl, Alt ou Shift a tecla é um atalho do navegador (Command + ← é "voltar")
+    if (evento.altKey || evento.ctrlKey || evento.metaKey || evento.shiftKey) return;
+
+    const focoEmAba = abas.includes(document.activeElement);
+    const semFoco = document.activeElement === document.body;
+    if (!focoEmAba && !semFoco) return;
+
+    const atual = abas.findIndex(function (aba) {
+      return aba.getAttribute('aria-selected') === 'true';
     });
 
-    // Teclado, com o foco em uma aba: ← → andam entre as abas, Home vai à primeira e End à última
-    aba.addEventListener('keydown', function (evento) {
-      let destino = null;
-      if (evento.key === 'ArrowRight') destino = abas[(indice + 1) % abas.length];
-      if (evento.key === 'ArrowLeft') destino = abas[(indice - 1 + abas.length) % abas.length];
-      if (evento.key === 'Home') destino = abas[0];
-      if (evento.key === 'End') destino = abas[abas.length - 1];
+    let destino = null;
+    if (evento.key === 'ArrowRight') destino = abas[(atual + 1) % abas.length];
+    if (evento.key === 'ArrowLeft') destino = abas[(atual - 1 + abas.length) % abas.length];
+    // Home e End só com o foco em uma aba; fora dela, rolam a página
+    if (focoEmAba && evento.key === 'Home') destino = abas[0];
+    if (focoEmAba && evento.key === 'End') destino = abas[abas.length - 1];
 
-      if (destino) {
-        evento.preventDefault();
-        escolherAba(destino);
-        destino.focus();
-      }
-    });
+    if (destino) {
+      evento.preventDefault();
+      escolherAba(destino);
+      destino.focus();
+    }
   });
 
 

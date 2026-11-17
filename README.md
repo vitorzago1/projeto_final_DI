@@ -17,7 +17,8 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 | 1 | Variáveis de cor e tipografia, tema claro/escuro, painel de acessibilidade | `v0.1` | `7ea5a56` | pronta |
 | 2 | Início (carrossel + cartões) e Projetos (cartões + pesquisa + abas) | `v0.2` | `e31ea2a` | pronta — textos marcados com `[PREENCHER]` |
 | 2.1 | Correções depois do teste da Etapa 2 (carrossel e setas nas abas) | `v0.2.1` | `0ac5b10` | pronta |
-| 3 | Contato e Login com validação | `v0.3` | ver histórico | pronta |
+| 3 | Contato e Login com validação | `v0.3` | `167e37c` | pronta |
+| 3.1 | Correção das setas nas abas, depois do teste da Etapa 3 | `v0.3.1` | ver histórico | pronta |
 | 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | — | a fazer |
 | 5 | Documentação, prints, GitHub Pages | `v0.5` | — | a fazer |
 
@@ -309,7 +310,7 @@ em um botão depois do clique; pausar e reproduzir; a nota de "Reduzir animaçõ
 tema não interfere no carrossel. Para reproduzir o comportamento do Safari, o teste dispara
 o clique sem dar foco ao botão e em seguida usa as setas do teclado, nas abas e no carrossel.
 
-### Etapa 3 — Contato e Login com validação (tag `v0.3`)
+### Etapa 3 — Contato e Login com validação (tag `v0.3`, commit `167e37c`)
 
 As duas páginas são demonstrações: o site não tem servidor, e cada página avisa isso em
 um quadro logo acima do formulário.
@@ -379,3 +380,22 @@ Resultados:
   estados com erros, dados incorretos e confirmação.
 - **Sem regressão:** os testes do painel de acessibilidade (40) e do carrossel e das abas
   (27) foram rodados de novo e passaram.
+
+### Etapa 3.1 — Setas nas abas, segunda correção (tag `v0.3.1`)
+
+O Vitor testou de novo e as setas ← → ainda não trocavam de aba depois de um clique no
+navegador dele. A correção da Etapa 2.1 dependia de o navegador aceitar o foco na aba
+clicada; no Chromium, o único navegador disponível no ambiente de teste, isso funciona,
+então o problema não tinha aparecido.
+
+- Correção: as teclas passaram a ser ouvidas na página inteira, e não só na aba. As setas
+  trocam de aba em dois casos: quando o foco está em uma aba, ou quando a pessoa acabou de
+  clicar em uma aba e o foco não está em nenhum outro elemento. Assim o resultado não
+  depende de onde o navegador deixa o foco depois do clique.
+- Em qualquer outro lugar as setas continuam fazendo o que sempre fazem: movem o cursor no
+  campo de pesquisa, trocam a opção no painel de acessibilidade. Com Command, Ctrl, Alt ou
+  Shift a tecla é deixada para o navegador (Command + ← é "voltar").
+- Teste (Playwright, 28 verificações, todas aprovadas), em dois cenários: um navegador que
+  dá foco ao botão clicado, e o pior caso — um navegador que não dá foco e em que o pedido
+  de foco do script não tem efeito. Nos dois, as setas trocam de aba depois do clique, e
+  não trocam nos casos em que não devem.
