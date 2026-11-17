@@ -99,11 +99,6 @@
   // "input" acontece a cada tecla (e também ao colar ou apagar): é o filtro em tempo real
   campo.addEventListener('input', filtrar);
 
-  // Enter no campo não deve recarregar a página
-  filtros.querySelector('form').addEventListener('submit', function (evento) {
-    evento.preventDefault();
-  });
-
 
   /* ---------- 3. Abas ---------- */
 
@@ -186,6 +181,5 @@
 
 
   /* ---------- 5. Início ---------- */
-  filtros.hidden = false;   // os filtros só aparecem agora que funcionam
   filtrar();
 })();

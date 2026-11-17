@@ -21,8 +21,11 @@ HTML5, CSS3 e JavaScript puro, sem framework de JavaScript e sem etapa de build.
 | Git | — | Histórico de versões: um commit e uma tag por etapa |
 | GitHub | — | Repositório do projeto |
 | Node.js | 22 | Rodar `scripts/contraste.js` |
-| [Playwright](https://playwright.dev/) | — | Testes no navegador (Chromium) e capturas de tela |
+| [Playwright](https://playwright.dev/) | 1.63.0 | Testes no navegador (Chromium) e capturas de tela |
 | [axe-core](https://github.com/dequelabs/axe-core) | 4.14.1 | Verificação automática de acessibilidade |
+| [Lighthouse](https://developer.chrome.com/docs/lighthouse) | 13.6.0 | Notas de acessibilidade, boas práticas, SEO e desempenho |
+| [html-validate](https://html-validate.org/) | 11.21.1 | Conferir se o HTML é válido |
+| [Pillow](https://python-pillow.org/) (Python) | 12.3.0 | Reduzir os prints para a versão de 960 pixels |
 
 ## Créditos das imagens
 
@@ -31,14 +34,14 @@ são capturas de tela feitas com o Playwright.
 
 | Arquivo | O que é | Origem | Data |
 |---------|---------|--------|------|
-| `img/projetos/escola-nacional-de-ballet-1280.jpg` e `-640.jpg` | Primeira tela do site da Escola Nacional de Ballet | Captura de <https://escolanacionaldeballet.com.br> | 17/11/2026 |
-| `img/projetos/ana-zago-advocacia-1280.jpg` e `-640.jpg` | Primeira tela do site Ana Zago Advocacia. A foto que aparece na captura faz parte do site. | Captura de <https://anazagoadvocacia.com> | 17/11/2026 |
-| `img/projetos/portfolio-1280.jpg` e `-640.jpg` | Página inicial deste portfólio, tema escuro, painel de acessibilidade aberto | Captura do próprio site | 17/11/2026 |
+| `img/projetos/escola-nacional-de-ballet-1280.jpg`, `-960.jpg` e `-640.jpg` | Primeira tela do site da Escola Nacional de Ballet | Captura de <https://escolanacionaldeballet.com.br> | 17/11/2026 |
+| `img/projetos/ana-zago-advocacia-1280.jpg`, `-960.jpg` e `-640.jpg` | Primeira tela do site Ana Zago Advocacia. A foto que aparece na captura faz parte do site. | Captura de <https://anazagoadvocacia.com> | 17/11/2026 |
+| `img/projetos/portfolio-1280.jpg`, `-960.jpg` e `-640.jpg` | Página inicial deste portfólio, tema escuro, painel de acessibilidade aberto | Captura do próprio site | 17/11/2026 |
 | `img/favicon.svg` | Ícone da aba do navegador, com as iniciais "VZ" | Desenhado para o projeto | 17/11/2026 |
 | `docs/paleta.png` | Imagem da paleta de cores | Captura de `docs/paleta.html` | 17/11/2026 |
 
-As capturas dos sites têm 1280×800 pixels (janela de computador) e uma versão reduzida de
-640×400 pixels, usada nos cartões e em telas pequenas.
+As capturas dos sites têm 1280×800 pixels (janela de computador) e duas versões reduzidas,
+de 960×600 e 640×400 pixels. O navegador escolhe a menor que serve para o tamanho da tela.
 
 ## Dados dos projetos
 

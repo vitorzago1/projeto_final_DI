@@ -1055,8 +1055,17 @@ code {
 
 /* 17. Filtros da página Projetos: pesquisa, abas e aviso de "nenhum resultado"
    -------------------------------------------------------------------------- */
+/* Os filtros só funcionam com JavaScript, então ficam escondidos sem ele.
+   js/preferencias.js põe a classe "com-js" no <html> antes de a página ser
+   desenhada: com JavaScript, os filtros já aparecem no primeiro instante e a
+   lista de projetos não é empurrada para baixo depois. */
 .filtros {
+  display: none;
   margin-top: 1.5rem;
+}
+
+.com-js .filtros {
+  display: block;
 }
 
 .pesquisa {
@@ -1145,6 +1154,14 @@ code {
 
 .acess-botao:hover {
   background: var(--cor-marca-hover);
+}
+
+/* Quando um elemento recebe foco, o navegador rola a página para mostrá-lo.
+   scroll-padding reserva uma faixa no pé da tela que não conta como "visível":
+   se o elemento focado estiver nessa faixa, a página rola mais um pouco. Assim
+   ele nunca fica escondido atrás do botão fixo. */
+html {
+  scroll-padding-bottom: 5rem;
 }
 
 .acess-painel {
@@ -1330,8 +1347,11 @@ html[data-fonte="130"] { font-size: 130%; }
 /* Reduzir animações. Vale em dois casos:
    (a) a pessoa ligou a opção no painel (atributo data-animacoes);
    (b) o sistema operacional pede menos movimento (prefers-reduced-motion).
+   O primeiro seletor é o próprio <html>, que tem o atributo: é nele que fica
+   a rolagem suave da página (scroll-behavior), ligada pelo Bootstrap.
    A duração vira quase zero em vez de zero para os eventos de "fim da
    transição", que o Bootstrap espera, continuarem acontecendo. */
+[data-animacoes="reduzidas"],
 [data-animacoes="reduzidas"] *,
 [data-animacoes="reduzidas"] *::before,
 [data-animacoes="reduzidas"] *::after {

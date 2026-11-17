@@ -1,0 +1,18 @@
+{
+  "name": "portfolio-vitor-zago",
+  "private": true,
+  "description": "Ferramentas de teste do portfólio. O site não precisa de nada disto para funcionar: são só os scripts de auditoria da pasta scripts/.",
+  "scripts": {
+    "contraste": "node scripts/contraste.js",
+    "auditoria:axe": "node scripts/auditoria-axe.js",
+    "auditoria:teclado": "node scripts/auditoria-teclado.js",
+    "auditoria:layout": "node scripts/auditoria-layout.js",
+    "auditoria:lighthouse": "node scripts/auditoria-lighthouse.js",
+    "auditoria": "npm run contraste && npm run auditoria:axe && npm run auditoria:teclado && npm run auditoria:layout && npm run auditoria:lighthouse"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.1",
+    "lighthouse": "13.6.0",
+    "playwright": "1.63.0"
+  }
+}

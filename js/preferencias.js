@@ -104,6 +104,10 @@
   // Disponibiliza as funções para js/acessibilidade.js (o painel)
   window.Preferencias = { padrao, ler, salvar, limpar, aplicar, sistemaPede };
 
+  // Marca no <html> que o JavaScript está funcionando. O CSS usa essa classe para
+  // mostrar, já no primeiro instante, o que só funciona com JavaScript (filtros de Projetos).
+  document.documentElement.classList.add('com-js');
+
   // Aplica imediatamente, antes de a página ser desenhada
   aplicar(ler());
 })();

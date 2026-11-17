@@ -17,6 +17,9 @@
   <!-- Pede a fonte do site logo no início, para o texto não trocar de fonte depois de aparecer -->
   <link rel="preload" href="fontes/atkinson-hyperlegible-next.woff2" as="font" type="font/woff2" crossorigin>
 
+  <!-- Abre a conexão com o servidor do Bootstrap o quanto antes, para o CSS chegar mais rápido -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <!-- Bootstrap 5.3.9 via CDN, com versão fixa.
        "integrity" é uma impressão digital do arquivo: se o arquivo do CDN for alterado,
        o navegador se recusa a carregar. -->
@@ -84,17 +87,19 @@
       <p class="lead">Sites publicados e repositórios de código.</p>
 
       <!-- ===== FILTROS: pesquisa + abas de categoria =====
-           Começam escondidos (hidden) e são mostrados por js/projetos.js: sem JavaScript eles
-           não funcionariam, e a lista completa de projetos continua visível logo abaixo. -->
-      <div class="filtros" hidden>
+           Só aparecem quando o JavaScript está funcionando (classe "com-js" no <html>, ver
+           css/estilo.css). Sem JavaScript eles não funcionariam, e a lista completa de projetos
+           continua visível logo abaixo. -->
+      <div class="filtros">
 
-        <!-- role="search" identifica a área de busca para o leitor de tela -->
-        <form class="pesquisa" role="search" aria-label="Pesquisar projetos">
+        <!-- role="search" identifica a área de busca para o leitor de tela.
+             Não é um <form>: a lista é filtrada a cada tecla, então não há o que enviar. -->
+        <div class="pesquisa" role="search" aria-label="Pesquisar projetos">
           <label class="form-label" for="pesquisa">Pesquisar projetos</label>
           <!-- aria-describedby liga o campo ao texto de ajuda logo abaixo dele -->
           <input class="form-control" type="search" id="pesquisa" autocomplete="off" aria-describedby="pesquisa-ajuda">
           <p class="form-text" id="pesquisa-ajuda">Procure por nome, tecnologia ou tag. A lista muda enquanto você digita.</p>
-        </form>
+        </div>
 
         <!-- Abas de categoria. role="tablist", "tab" e "tabpanel" dizem ao leitor de tela que é
              um conjunto de abas; aria-selected marca a aba escolhida. No teclado: Tab entra nas
@@ -119,9 +124,9 @@
           <li class="col-md-6 col-lg-4" data-categoria="sites">
             <article class="projeto">
               <img class="projeto-imagem" src="img/projetos/escola-nacional-de-ballet-640.jpg"
-                   srcset="img/projetos/escola-nacional-de-ballet-640.jpg 640w, img/projetos/escola-nacional-de-ballet-1280.jpg 1280w"
+                   srcset="img/projetos/escola-nacional-de-ballet-640.jpg 640w, img/projetos/escola-nacional-de-ballet-960.jpg 960w, img/projetos/escola-nacional-de-ballet-1280.jpg 1280w"
                    sizes="(min-width: 992px) 30vw, (min-width: 768px) 45vw, 92vw"
-                   width="640" height="400"
+                   width="640" height="400" fetchpriority="high"
                    alt="Página inicial do site da Escola Nacional de Ballet, com um palco escuro iluminado por um foco de luz.">
               <div class="projeto-corpo">
                 <p class="projeto-categoria">Site</p>
@@ -143,7 +148,7 @@
           <li class="col-md-6 col-lg-4" data-categoria="sites">
             <article class="projeto">
               <img class="projeto-imagem" src="img/projetos/ana-zago-advocacia-640.jpg"
-                   srcset="img/projetos/ana-zago-advocacia-640.jpg 640w, img/projetos/ana-zago-advocacia-1280.jpg 1280w"
+                   srcset="img/projetos/ana-zago-advocacia-640.jpg 640w, img/projetos/ana-zago-advocacia-960.jpg 960w, img/projetos/ana-zago-advocacia-1280.jpg 1280w"
                    sizes="(min-width: 992px) 30vw, (min-width: 768px) 45vw, 92vw"
                    width="640" height="400"
                    alt="Página inicial do site Ana Zago Advocacia, com o título “Direito para proteger o que importa.” e a foto de uma advogada.">
@@ -168,7 +173,7 @@
           <li class="col-md-6 col-lg-4" data-categoria="sites">
             <article class="projeto">
               <img class="projeto-imagem" src="img/projetos/portfolio-640.jpg"
-                   srcset="img/projetos/portfolio-640.jpg 640w, img/projetos/portfolio-1280.jpg 1280w"
+                   srcset="img/projetos/portfolio-640.jpg 640w, img/projetos/portfolio-960.jpg 960w, img/projetos/portfolio-1280.jpg 1280w"
                    sizes="(min-width: 992px) 30vw, (min-width: 768px) 45vw, 92vw"
                    width="640" height="400"
                    alt="Página inicial deste portfólio no tema escuro, com o painel de acessibilidade aberto.">

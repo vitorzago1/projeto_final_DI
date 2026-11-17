@@ -18,8 +18,8 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 | 2 | Início (carrossel + cartões) e Projetos (cartões + pesquisa + abas) | `v0.2` | `e31ea2a` | pronta — textos marcados com `[PREENCHER]` |
 | 2.1 | Correções depois do teste da Etapa 2 (carrossel e setas nas abas) | `v0.2.1` | `0ac5b10` | pronta |
 | 3 | Contato e Login com validação | `v0.3` | `167e37c` | pronta |
-| 3.1 | Correção das setas nas abas, depois do teste da Etapa 3 | `v0.3.1` | ver histórico | pronta |
-| 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | — | a fazer |
+| 3.1 | Correção das setas nas abas, depois do teste da Etapa 3 | `v0.3.1` | `734ace6` | pronta |
+| 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | ver histórico | pronta |
 | 5 | Documentação, prints, GitHub Pages | `v0.5` | — | a fazer |
 
 ## Como rodar
@@ -48,6 +48,23 @@ node scripts/contraste.js
 
 O script lê as cores de `css/estilo.css` e gera `docs/contraste.md`.
 
+**Rodar a auditoria completa** (contraste, axe-core, teclado, layout e Lighthouse). Só é
+preciso para refazer os testes; o site funciona sem nada disto.
+
+```bash
+npm install
+```
+
+```bash
+npx playwright install chromium
+```
+
+```bash
+npm run auditoria
+```
+
+Os resultados são gravados em `docs/contraste.md` e na pasta `docs/auditoria/`.
+
 ## Estrutura de pastas
 
 ```
@@ -71,12 +88,20 @@ O script lê as cores de `css/estilo.css` e gera `docs/contraste.md`.
 │   └── LICENCA-OFL.txt                    Licença da fonte
 ├── img/
 │   ├── favicon.svg   Ícone da aba do navegador
-│   └── projetos/     Prints dos sites, em duas larguras (640 e 1280 pixels)
-├── scripts/
-│   └── contraste.js  Calcula o contraste das cores e gera docs/contraste.md
+│   └── projetos/     Prints dos sites, em três larguras (640, 960 e 1280 pixels)
+├── scripts/          Ferramentas de teste (não fazem parte do site)
+│   ├── contraste.js             Calcula o contraste das cores e gera docs/contraste.md
+│   ├── auditoria-axe.js         Regras automáticas de acessibilidade, em todos os temas e estados
+│   ├── auditoria-teclado.js     Percorre cada página com a tecla Tab
+│   ├── auditoria-layout.js      Telas estreitas, texto ampliado e tamanho dos alvos
+│   ├── auditoria-lighthouse.js  Lighthouse nas 4 páginas, temas claro e escuro
+│   └── apoio.js                 Lista de páginas e temas e servidor local usados pelos scripts
+├── package.json      Lista as ferramentas de teste e os comandos "npm run"
 └── docs/             Material para o relatório
     ├── cores.md        Paleta e justificativa de cada cor
     ├── contraste.md    Contraste de cada par texto/fundo (gerado pelo script)
+    ├── auditoria.md    Auditoria da Etapa 4: o que falhou, correções, antes e depois
+    ├── auditoria/      Resultados completos gerados pelos scripts (axe, teclado, layout, Lighthouse)
     ├── ferramentas.md  Ferramentas, bibliotecas, créditos de imagens e IAs usadas
     ├── paleta.html     Página que mostra a paleta aplicada, lendo o CSS do site
     ├── paleta.png      Imagem da paleta
@@ -93,8 +118,10 @@ O script lê as cores de `css/estilo.css` e gera `docs/contraste.md`.
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2, licença MIT | Dez ícones colados como SVG (menu, acessibilidade, fechar, pausar, reproduzir, setas, informação, erro, sucesso) |
 | Git | — | Histórico de versões: um commit e uma tag por etapa |
 | Node.js | 22 | Rodar `scripts/contraste.js` |
-| [Playwright](https://playwright.dev/) | — | Testes no navegador e capturas de tela |
+| [Playwright](https://playwright.dev/) | 1.63.0 | Testes no navegador (Chromium) e capturas de tela |
 | [axe-core](https://github.com/dequelabs/axe-core) | 4.14.1 | Verificação automática de acessibilidade (o mesmo motor do Lighthouse) |
+| [Lighthouse](https://developer.chrome.com/docs/lighthouse) | 13.6.0 | Notas de acessibilidade, boas práticas, SEO e desempenho |
+| [html-validate](https://html-validate.org/) | 11.21.1 | Conferir se o HTML é válido |
 
 A lista completa, com créditos de imagens e IAs usadas, está em `docs/ferramentas.md`.
 
@@ -381,7 +408,7 @@ Resultados:
 - **Sem regressão:** os testes do painel de acessibilidade (40) e do carrossel e das abas
   (27) foram rodados de novo e passaram.
 
-### Etapa 3.1 — Setas nas abas, segunda correção (tag `v0.3.1`)
+### Etapa 3.1 — Setas nas abas, segunda correção (tag `v0.3.1`, commit `734ace6`)
 
 O Vitor testou de novo e as setas ← → ainda não trocavam de aba depois de um clique no
 navegador dele. A correção da Etapa 2.1 dependia de o navegador aceitar o foco na aba
@@ -399,3 +426,54 @@ então o problema não tinha aparecido.
   dá foco ao botão clicado, e o pior caso — um navegador que não dá foco e em que o pedido
   de foco do script não tem efeito. Nos dois, as setas trocam de aba depois do clique, e
   não trocam nos casos em que não devem.
+
+### Etapa 4 — Auditoria: contraste, teclado e Lighthouse (tag `v0.4`)
+
+O relatório completo, com antes e depois, está em **`docs/auditoria.md`**. Os resultados
+gerados pelos scripts ficam em `docs/contraste.md` e na pasta `docs/auditoria/`.
+
+O que foi feito:
+
+1. **Scripts de auditoria** na pasta `scripts/`, para qualquer pessoa refazer os testes:
+   - `auditoria-axe.js`: regras do axe-core nos 4 temas, em 2 larguras e nos estados de
+     cada página (formulário com erros, confirmação, pesquisa sem resultado, painel aberto);
+   - `auditoria-teclado.js`: percorre cada página com Tab e confere alcance, ordem, foco
+     visível, foco não encoberto, ausência de armadilha, link de pular, painel e menu;
+   - `auditoria-layout.js`: rolagem lateral em 320px e 390px com o texto em 100%, 115% e
+     130%, e tamanho mínimo dos alvos de toque;
+   - `auditoria-lighthouse.js`: Lighthouse nas 4 páginas, temas claro e escuro, celular e
+     computador (16 medições). O tema é escolhido gravando a preferência em `localStorage`.
+2. **Medição inicial** do site como estava no fim da Etapa 3.1.
+3. **Correções** do que falhou e nova medição.
+
+Resultado da meta: **Lighthouse Acessibilidade 100 nas 16 medições** (meta: 95 ou mais),
+antes e depois. A auditoria serviu para achar o que o Lighthouse não vê.
+
+| Problema encontrado | Antes | Depois |
+|---------------------|-------|--------|
+| Foco encoberto pelo botão fixo "Acessibilidade" (Início, celular) | 5 elementos | 0 |
+| "Reduzir animações" não desligava a rolagem suave da página | `smooth` | `auto` |
+| Lista de Projetos "pulava" ao carregar (deslocamento de layout, CLS) | 0,189 | 0 |
+| Desempenho no Lighthouse, Projetos no celular | 83 | 96 |
+| Desempenho no Lighthouse, Início no celular | 97 | 99 |
+| Pesquisa dentro de um `<form>` sem botão de envio | 1 aviso do validador | 0 |
+
+Correções aplicadas:
+
+- `scroll-padding-bottom` no `<html>`, para o elemento focado nunca ficar atrás do botão fixo;
+- a regra de "Reduzir animações" passou a valer também para o próprio `<html>`;
+- os filtros de Projetos aparecem desde o primeiro instante quando há JavaScript (classe
+  `com-js`, posta por `js/preferencias.js` antes de a página ser desenhada);
+- versão de 960 pixels de cada print, `fetchpriority="high"` na primeira imagem de Projetos
+  e `preconnect` com o servidor do Bootstrap;
+- a pesquisa de Projetos deixou de ser um `<form>` e virou `<div role="search">`.
+
+O que ficou igual nas duas medições: contraste (136 pares, nenhum reprovado), axe-core
+(nenhuma violação em 88 verificações), Boas práticas e SEO do Lighthouse (100) e HTML válido.
+
+Também conferido nesta etapa: o site com o JavaScript desligado (menu, rodapé, lista de
+projetos e validação do próprio navegador funcionam) e os testes das etapas anteriores
+(149 verificações, todas aprovadas).
+
+Limites, descritos em `docs/auditoria.md`: não houve teste com leitor de tela de verdade e
+só o Chromium estava disponível para os testes.
