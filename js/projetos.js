@@ -123,9 +123,12 @@
   abas.forEach(function (aba, indice) {
     aba.addEventListener('click', function () {
       escolherAba(aba);
+      // Safari e Firefox no Mac não dão foco a um botão clicado com o mouse.
+      // Dar o foco aqui faz as setas do teclado funcionarem logo depois do clique.
+      aba.focus();
     });
 
-    // Teclado, no padrão de abas: ← → andam entre as abas, Home vai à primeira e End à última
+    // Teclado, com o foco em uma aba: ← → andam entre as abas, Home vai à primeira e End à última
     aba.addEventListener('keydown', function (evento) {
       let destino = null;
       if (evento.key === 'ArrowRight') destino = abas[(indice + 1) % abas.length];

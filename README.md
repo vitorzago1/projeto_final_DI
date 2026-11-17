@@ -15,7 +15,8 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 |------:|---------------|-----|--------|----------|
 | 0 | Pastas, Git, README, cabeçalho e rodapé, proposta de paleta | `v0.0` | `af6ec56` | pronta |
 | 1 | Variáveis de cor e tipografia, tema claro/escuro, painel de acessibilidade | `v0.1` | `7ea5a56` | pronta |
-| 2 | Início (carrossel + cartões) e Projetos (cartões + pesquisa + abas) | `v0.2` | ver histórico | pronta — textos marcados com `[PREENCHER]` |
+| 2 | Início (carrossel + cartões) e Projetos (cartões + pesquisa + abas) | `v0.2` | `e31ea2a` | pronta — textos marcados com `[PREENCHER]` |
+| 2.1 | Correções depois do teste da Etapa 2 (carrossel e setas nas abas) | `v0.2.1` | ver histórico | pronta |
 | 3 | Contato e Login com validação | `v0.3` | — | a fazer |
 | 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | — | a fazer |
 | 5 | Documentação, prints, GitHub Pages | `v0.5` | — | a fazer |
@@ -199,7 +200,7 @@ Resultados:
 Limitação conhecida: sem JavaScript o site aparece no tema claro e sem o painel. A redução
 de animações pedida pelo sistema operacional funciona mesmo assim, porque também está no CSS.
 
-### Etapa 2 — Início e Projetos (tag `v0.2`)
+### Etapa 2 — Início e Projetos (tag `v0.2`, commit `e31ea2a`)
 
 Conteúdo: os textos sobre o Vitor que ainda não foram escritos aparecem como
 `[PREENCHER: ...]`, destacados em âmbar. O que está preenchido vem de fontes verificáveis:
@@ -212,8 +213,9 @@ O que foi feito na página **Início** (`index.html`):
 2. **Carrossel de imagens** (`js/carrossel.js`), com prints dos dois sites e deste portfólio.
    - Usa o componente *carousel* do Bootstrap para deslizar; quando andar e quando parar é
      decidido pelo script do site.
-   - Passa sozinho a cada 6 segundos e espera enquanto o mouse está em cima ou o foco do
-     teclado está dentro dele.
+   - Passa sozinho a cada 6 segundos. Nesta versão ele também esperava enquanto o mouse
+     estava em cima ou o foco do teclado estava dentro dele; isso foi retirado na correção
+     descrita logo abaixo.
    - **Botão Pausar/Reproduzir** (WCAG 2.2.2). É o primeiro item do carrossel no HTML,
      para ser o primeiro a receber foco.
    - Setas, bolinhas e as teclas ← → trocam de imagem. A bolinha da imagem atual tem
@@ -267,3 +269,39 @@ Resultados:
 - **Contraste:** 128 pares conferidos (32 por tema), nenhum reprovado no AA.
 - **axe-core:** nenhuma violação em 72 verificações (4 páginas × 4 temas × 2 larguras,
   incluindo o aviso de nenhum resultado e o painel de acessibilidade aberto).
+
+### Etapa 2.1 — Correções depois do teste (tag `v0.2.1`)
+
+O Vitor testou a Etapa 2 e relatou dois problemas.
+
+**1. "O carrossel às vezes passa sozinho, outras não."**
+
+- Causa: o carrossel tinha esperas escondidas. Ele parava enquanto o mouse estivesse em cima
+  das imagens e enquanto o foco estivesse em um dos seus botões — e, depois de um clique em
+  uma seta ou bolinha, o foco ficava no botão, então ele não voltava a andar. Em todos esses
+  casos o botão continuava mostrando "Pausar", como se estivesse andando. Além disso, cada
+  entrada e saída do mouse reiniciava a contagem dos 6 segundos.
+- Correção: passou a valer uma regra só. O carrossel anda a cada 6 segundos, a não ser que
+  esteja pausado, e o botão sempre mostra o estado real ("Pausar" quando anda, "Reproduzir"
+  quando está parado). Depois de uma troca manual a contagem recomeça.
+- Quando o carrossel está parado por causa de "Reduzir animações" (no painel ou no sistema),
+  aparece uma nota dizendo isso. Antes, quem tinha deixado a opção ligada via o carrossel
+  parado sem explicação.
+- A exigência da WCAG (2.2.2: conteúdo que se move sozinho precisa de um jeito de pausar)
+  continua atendida pelo botão.
+
+**2. "Só consigo trocar de aba com o mouse; com as setas, não."**
+
+- Causa: as setas ← → funcionam quando o foco está em uma aba. O Safari e o Firefox no Mac
+  não dão foco a um botão clicado com o mouse; depois do clique, as teclas não tinham onde agir.
+- Correção: ao clicar em uma aba, o script dá o foco a ela. O mesmo foi feito nas setas e
+  bolinhas do carrossel, para as teclas ← → funcionarem logo depois de um clique.
+- Observação sobre o Safari: por padrão, a tecla Tab não passa por botões e links nesse
+  navegador. Para navegar só pelo teclado, use Option + Tab ou ligue "Pressionar Tab para
+  destacar cada item da página web" nos ajustes do Safari (aba Avançado).
+
+Como foi testado (Playwright, 27 verificações, todas aprovadas): o carrossel avança com o
+mouse parado em cima das imagens, com o mouse entrando e saindo várias vezes e com o foco
+em um botão depois do clique; pausar e reproduzir; a nota de "Reduzir animações"; trocar o
+tema não interfere no carrossel. Para reproduzir o comportamento do Safari, o teste dispara
+o clique sem dar foco ao botão e em seguida usa as setas do teclado, nas abas e no carrossel.

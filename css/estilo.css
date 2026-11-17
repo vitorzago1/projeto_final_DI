@@ -584,6 +584,14 @@ input:focus-visible,
   gap: 0.5rem;
 }
 
+/* Nota que explica por que o carrossel está parado; ocupa a linha inteira */
+.carrossel-nota {
+  flex: 0 0 100%;
+  margin: 0;
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
 .carrossel-seta {
   display: inline-flex;
   align-items: center;
