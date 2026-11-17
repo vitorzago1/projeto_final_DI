@@ -1,0 +1,15 @@
+# Arquivos que o Git deve ignorar (não entram no repositório)
+
+# Dependências baixadas pelo npm (só usadas pelos scripts de apoio)
+node_modules/
+
+# Arquivos criados pelo sistema operacional e por editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Arquivos temporários e de log
+*.log
+*.tmp

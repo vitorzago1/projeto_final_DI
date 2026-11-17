@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- lang="pt-BR" avisa navegadores e leitores de tela que o conteúdo está em português do Brasil -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Faz o site ocupar a largura real da tela do celular, em vez de aparecer "miniaturizado" -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar — Vitor Zago | Desenvolvimento web e IA</title>
+  <meta name="description" content="Página de login de demonstração do portfólio de Vitor Zago.">
+
+  <!-- Bootstrap 5.3.9 via CDN, com versão fixa.
+       "integrity" é uma impressão digital do arquivo: se o arquivo do CDN for alterado,
+       o navegador se recusa a carregar. -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css"
+        integrity="sha384-yEPZ7jP9S0QKiUQ0m3jjsO4ProIW7wvR9gXkI7JOGa2XVsw53Yke2bsdkBbjmmiX"
+        crossorigin="anonymous">
+
+  <!-- Estilos do site. Vem depois do Bootstrap para poder ajustar o que ele define. -->
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- Link "pular para o conteúdo": primeiro item da página para quem navega pelo teclado.
+       Fica escondido até receber foco (tecla Tab). -->
+  <a class="link-pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ===== CABEÇALHO (igual nas 4 páginas; ao alterar aqui, altere nas outras) ===== -->
+  <header class="cabecalho border-bottom">
+    <nav class="navbar navbar-expand-md" aria-label="Menu principal">
+      <div class="container">
+
+        <a class="navbar-brand marca" href="index.html">
+          <span class="marca-nome">Vitor Zago</span>
+          <span class="marca-descricao">desenvolvimento web e IA</span>
+        </a>
+
+        <!-- Botão que abre e fecha o menu em telas pequenas.
+             aria-expanded informa ao leitor de tela se o menu está aberto (o Bootstrap atualiza sozinho). -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#menu-principal"
+                aria-controls="menu-principal" aria-expanded="false"
+                aria-label="Abrir ou fechar o menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu-principal">
+          <ul class="navbar-nav ms-auto align-items-md-center gap-md-2">
+            <!-- aria-current="page" marca a página em que a pessoa está -->
+            <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link" href="projetos.html">Projetos</a></li>
+            <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+            <li class="nav-item mt-2 mt-md-0"><a class="btn btn-outline-dark active" aria-current="page" href="login.html">Entrar</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL =====
+       tabindex="-1" permite que o link "pular para o conteúdo" leve o foco até aqui. -->
+  <main id="conteudo" tabindex="-1">
+    <div class="container py-5">
+      <h1>Entrar</h1>
+      <p><mark class="em-construcao">[EM CONSTRUÇÃO — Etapa 3: e-mail e senha, mostrar/ocultar senha, "lembrar de mim" e validação]</mark></p>
+    </div>
+  </main>
+
+  <!-- ===== RODAPÉ (igual nas 4 páginas; ao alterar aqui, altere nas outras) ===== -->
+  <footer class="rodape border-top">
+    <div class="container py-4">
+      <div class="row gy-4">
+
+        <div class="col-md-5">
+          <p class="rodape-marca mb-1">Vitor Zago</p>
+          <p class="mb-0">Desenvolvimento web e IA.</p>
+        </div>
+
+        <nav class="col-6 col-md-3" aria-label="Páginas do site">
+          <h2 class="rodape-titulo">Páginas</h2>
+          <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="projetos.html">Projetos</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="login.html">Entrar</a></li>
+          </ul>
+        </nav>
+
+        <nav class="col-6 col-md-4" aria-label="Redes e contato">
+          <h2 class="rodape-titulo">Onde me encontrar</h2>
+          <ul class="list-unstyled mb-0">
+            <li><a href="https://github.com/vitorzago1">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/vitor-zago">LinkedIn</a></li>
+            <li><a href="contato.html">Fale comigo</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <p class="rodape-direitos">© 2026 Vitor Zago. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript do Bootstrap (necessário para o menu abrir e fechar no celular).
+       "defer" faz o script rodar só depois de o HTML estar pronto, sem travar o carregamento. -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IEB0hGzo9y5Bp9mYanr8Bu"
+          crossorigin="anonymous" defer></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+/* ==========================================================================
+   estilo.css — estilos do site "Vitor Zago — desenvolvimento web e IA"
+
+   Este arquivo é carregado DEPOIS do Bootstrap, então o que está aqui
+   complementa ou ajusta o que o Bootstrap já define.
+
+   Etapa 0: só a estrutura (cabeçalho, rodapé, link de pular, foco).
+   As cores próprias e a tipografia entram na Etapa 1, como variáveis CSS.
+
+   Sumário
+   1. Estrutura da página (rodapé sempre embaixo)
+   2. Link "pular para o conteúdo"
+   3. Foco visível
+   4. Cabeçalho
+   5. Rodapé
+   6. Marcadores de conteúdo pendente
+   ========================================================================== */
+
+
+/* 1. Estrutura da página
+   --------------------------------------------------------------------------
+   O body vira uma coluna com a altura da tela. O <main> estica e ocupa o
+   espaço que sobrar; assim o rodapé fica no fim da tela mesmo em páginas
+   com pouco conteúdo. */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* O <main> recebe foco quando a pessoa usa o link de pular.
+   Ele não é clicável, então não precisa mostrar contorno. */
+main:focus {
+  outline: none;
+}
+
+
+/* 2. Link "pular para o conteúdo"
+   --------------------------------------------------------------------------
+   Fica fora da tela até receber foco pelo teclado (tecla Tab).
+   Não usamos display:none porque isso tiraria o link também do teclado. */
+.link-pular {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1100;                  /* acima do cabeçalho */
+  padding: 0.5rem 1rem;
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-weight: 600;
+  border-radius: 0.375rem;
+  transform: translateY(-200%);   /* empurra para fora da tela */
+}
+
+.link-pular:focus {
+  transform: translateY(0);       /* volta para a tela ao receber foco */
+}
+
+
+/* 3. Foco visível
+   --------------------------------------------------------------------------
+   Quem navega pelo teclado precisa enxergar onde está. O contorno usa a
+   cor do próprio texto do elemento (currentColor), que já contrasta com o
+   fundo. O box-shadow do Bootstrap é removido por ser claro demais.
+   Na Etapa 1 a cor do foco vira uma variável do tema. */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.nav-link:focus-visible,
+.navbar-toggler:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+
+/* 4. Cabeçalho
+   -------------------------------------------------------------------------- */
+
+/* A marca tem duas linhas: o nome e, embaixo, o que eu faço */
+.marca {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.marca-nome {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.marca-descricao {
+  font-size: 0.875rem;
+  color: var(--bs-secondary-color);
+}
+
+/* A página atual fica marcada no menu com negrito e uma linha embaixo,
+   não só pela cor (WCAG 1.4.1: a informação não depende apenas de cor). */
+.navbar-nav .nav-link.active {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4em;
+}
+
+
+/* 5. Rodapé
+   -------------------------------------------------------------------------- */
+.rodape {
+  margin-top: 3rem;
+}
+
+.rodape-marca {
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+/* Os títulos das colunas são <h2> no HTML (hierarquia correta),
+   mas visualmente menores que um h2 de conteúdo. */
+.rodape-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Espaço entre os links: facilita o toque com o dedo no celular */
+.rodape li {
+  padding-block: 0.25rem;
+}
+
+.rodape-direitos {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bs-border-color);
+  font-size: 0.875rem;
+  color: var(--bs-secondary-color);
+}
+
+
+/* 6. Marcadores de conteúdo pendente
+   --------------------------------------------------------------------------
+   [EM CONSTRUÇÃO ...] e [PREENCHER: ...] aparecem destacados para ninguém
+   esquecer de substituir antes da entrega. */
+.em-construcao,
+.a-preencher {
+  padding: 0.125rem 0.375rem;
+  border: 1px dashed currentColor;
+  border-radius: 0.25rem;
+}
