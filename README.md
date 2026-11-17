@@ -19,8 +19,9 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 | 2.1 | Correções depois do teste da Etapa 2 (carrossel e setas nas abas) | `v0.2.1` | `0ac5b10` | pronta |
 | 3 | Contato e Login com validação | `v0.3` | `167e37c` | pronta |
 | 3.1 | Correção das setas nas abas, depois do teste da Etapa 3 | `v0.3.1` | `734ace6` | pronta |
-| 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | ver histórico | pronta |
-| 5 | Documentação, prints, GitHub Pages | `v0.5` | — | a fazer |
+| 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | `5237f6a` | pronta |
+| 5 | Documentação final e capturas de tela | `v0.5` | ver histórico | pronta |
+| — | Publicação no GitHub Pages | — | — | aguardando a confirmação do Vitor |
 
 ## Como rodar
 
@@ -65,6 +66,14 @@ npm run auditoria
 
 Os resultados são gravados em `docs/contraste.md` e na pasta `docs/auditoria/`.
 
+**Refazer as capturas de tela** (depois de mudar o conteúdo ou o visual do site):
+
+```bash
+npm run prints
+```
+
+As imagens são gravadas em `docs/prints/`, com a lista delas em `docs/prints/README.md`.
+
 ## Estrutura de pastas
 
 ```
@@ -95,17 +104,24 @@ Os resultados são gravados em `docs/contraste.md` e na pasta `docs/auditoria/`.
 │   ├── auditoria-teclado.js     Percorre cada página com a tecla Tab
 │   ├── auditoria-layout.js      Telas estreitas, texto ampliado e tamanho dos alvos
 │   ├── auditoria-lighthouse.js  Lighthouse nas 4 páginas, temas claro e escuro
+│   ├── prints.js                Capturas de tela de cada página e dos estados (erros, painel etc.)
 │   └── apoio.js                 Lista de páginas e temas e servidor local usados pelos scripts
 ├── package.json      Lista as ferramentas de teste e os comandos "npm run"
+├── .nojekyll         Arquivo vazio: avisa o GitHub Pages para publicar os arquivos como estão
 └── docs/             Material para o relatório
+    ├── README.md       Índice: onde está cada assunto do relatório
     ├── cores.md        Paleta e justificativa de cada cor
     ├── contraste.md    Contraste de cada par texto/fundo (gerado pelo script)
+    ├── heuristicas.md  As 10 heurísticas de Nielsen, com exemplos do site
+    ├── componentes.md  Recursos e componentes de cada página
     ├── auditoria.md    Auditoria da Etapa 4: o que falhou, correções, antes e depois
     ├── auditoria/      Resultados completos gerados pelos scripts (axe, teclado, layout, Lighthouse)
     ├── ferramentas.md  Ferramentas, bibliotecas, créditos de imagens e IAs usadas
     ├── paleta.html     Página que mostra a paleta aplicada, lendo o CSS do site
     ├── paleta.png      Imagem da paleta
-    └── prints/         Capturas de tela das páginas (Etapa 5)
+    └── prints/         Capturas de tela: cada página em 1366px e 390px, temas claro e escuro
+        ├── README.md     Lista das imagens e o que cada uma mostra (gerada pelo script)
+        └── estados/      Telas de erro, confirmação, painel aberto, alto contraste etc.
 ```
 
 ## Tecnologias e ferramentas
@@ -117,7 +133,7 @@ Os resultados são gravados em `docs/contraste.md` e na pasta `docs/auditoria/`.
 | [Atkinson Hyperlegible Next](https://www.brailleinstitute.org/freefont/) | arquivo do pacote Fontsource 5.3.0, licença OFL 1.1 | Fonte do site, servida da pasta `fontes/` |
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2, licença MIT | Dez ícones colados como SVG (menu, acessibilidade, fechar, pausar, reproduzir, setas, informação, erro, sucesso) |
 | Git | — | Histórico de versões: um commit e uma tag por etapa |
-| Node.js | 22 | Rodar `scripts/contraste.js` |
+| Node.js | 22 | Rodar os scripts da pasta `scripts/` |
 | [Playwright](https://playwright.dev/) | 1.63.0 | Testes no navegador (Chromium) e capturas de tela |
 | [axe-core](https://github.com/dequelabs/axe-core) | 4.14.1 | Verificação automática de acessibilidade (o mesmo motor do Lighthouse) |
 | [Lighthouse](https://developer.chrome.com/docs/lighthouse) | 13.6.0 | Notas de acessibilidade, boas práticas, SEO e desempenho |
@@ -427,7 +443,7 @@ então o problema não tinha aparecido.
   de foco do script não tem efeito. Nos dois, as setas trocam de aba depois do clique, e
   não trocam nos casos em que não devem.
 
-### Etapa 4 — Auditoria: contraste, teclado e Lighthouse (tag `v0.4`)
+### Etapa 4 — Auditoria: contraste, teclado e Lighthouse (tag `v0.4`, commit `5237f6a`)
 
 O relatório completo, com antes e depois, está em **`docs/auditoria.md`**. Os resultados
 gerados pelos scripts ficam em `docs/contraste.md` e na pasta `docs/auditoria/`.
@@ -477,3 +493,55 @@ projetos e validação do próprio navegador funcionam) e os testes das etapas a
 
 Limites, descritos em `docs/auditoria.md`: não houve teste com leitor de tela de verdade e
 só o Chromium estava disponível para os testes.
+
+### Etapa 5 — Documentação final e capturas de tela (tag `v0.5`)
+
+Esta etapa não mudou o site: fechou o material de apoio do relatório, na pasta `docs/`.
+O índice está em **`docs/README.md`**.
+
+O que foi feito:
+
+1. **`docs/heuristicas.md`.** As 10 heurísticas de usabilidade de Nielsen. Para cada uma: o
+   que ela pede, onde aparece no site (página, elemento e arquivo), os prints que mostram
+   o exemplo e, quando existe, o limite conhecido.
+2. **`docs/componentes.md`.** Os recursos de cada página: como cada um foi feito (tags e
+   classes), em que arquivo está e o que garante a acessibilidade. Traz também a lista do
+   que foi pedido no projeto com o lugar onde cada item está, e a separação entre o que
+   vem do Bootstrap e o que foi escrito para o site.
+3. **`scripts/prints.js` e a pasta `docs/prints/`.** O script abre o site com o Playwright
+   e grava 38 imagens:
+   - 16 de página inteira: as quatro páginas, em 1366px e 390px de largura, nos temas
+     claro e escuro;
+   - 22 de estados, na pasta `estados/`: painel de acessibilidade aberto, alto contraste,
+     texto em 130%, menu do celular, link de pular em foco, carrossel parado, pesquisa com
+     e sem resultado, aba escolhida pelo teclado, erros e confirmações dos dois formulários.
+
+   Os nomes seguem o padrão `pagina-tema-largura.png` (por exemplo,
+   `inicio-escuro-390px.png`). O script também gera `docs/prints/README.md`, com a lista
+   das imagens e o que cada uma mostra.
+4. **`docs/ferramentas.md` fechado**: bibliotecas e ferramentas com versão e licença, a
+   origem de cada imagem, os dados que ainda precisam da confirmação do Vitor e as
+   ferramentas de IA usadas.
+5. **`docs/README.md`**: índice que diz em qual arquivo está cada assunto do relatório e
+   quais arquivos são gerados por script.
+6. **Preparação para o GitHub Pages**: arquivo `.nojekyll` na raiz. Por padrão o GitHub
+   Pages passa os arquivos por um programa chamado Jekyll, que monta sites a partir de
+   modelos. Este site já está pronto; o arquivo vazio avisa para publicar tudo como está.
+
+Dois cuidados nas capturas, anotados como comentário em `scripts/prints.js`:
+
+- As imagens do carrossel que ainda não apareceram só são baixadas quando o slide entra na
+  tela (`loading="lazy"`). A primeira versão do script esperava por todas as imagens da
+  página e travava; agora espera só pelas que estão visíveis.
+- O botão "Acessibilidade" é fixo na janela. Em uma imagem de página inteira ele ficaria
+  no meio, por cima do conteúdo. O script estica a janela até o fim da página antes de
+  fotografar, e o botão aparece no canto de baixo, como no fim da rolagem.
+
+Conferido nesta etapa: os scripts de auditoria (contraste, axe-core, teclado e layout)
+foram rodados de novo e os resultados continuam iguais aos da Etapa 4.
+
+O que falta:
+
+- **Textos `[PREENCHER]`**, que dependem do Vitor. Depois de preenchidos, `npm run prints`
+  refaz todas as capturas.
+- **Publicação no GitHub Pages**, que só acontece depois da confirmação do Vitor.

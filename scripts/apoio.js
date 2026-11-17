@@ -13,11 +13,12 @@ const path = require('path');
 
 const RAIZ = path.join(__dirname, '..');   // pasta do projeto
 
+// id: nome curto, sem acento, usado nos nomes dos arquivos de captura de tela
 const PAGINAS = [
-  { arquivo: 'index.html', nome: 'Início' },
-  { arquivo: 'projetos.html', nome: 'Projetos' },
-  { arquivo: 'contato.html', nome: 'Contato' },
-  { arquivo: 'login.html', nome: 'Entrar' }
+  { id: 'inicio', arquivo: 'index.html', nome: 'Início' },
+  { id: 'projetos', arquivo: 'projetos.html', nome: 'Projetos' },
+  { id: 'contato', arquivo: 'contato.html', nome: 'Contato' },
+  { id: 'entrar', arquivo: 'login.html', nome: 'Entrar' }
 ];
 
 const TEMAS = [
