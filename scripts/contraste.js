@@ -88,9 +88,11 @@ const PARES = [
   { uso: 'Mensagem de sucesso na página', frente: '--cor-sucesso', fundo: '--cor-fundo', tipo: 'texto' },
   { uso: 'Mensagem de sucesso em cartões', frente: '--cor-sucesso', fundo: '--cor-superficie', tipo: 'texto' },
   { uso: 'Mensagem de sucesso na caixa de aviso', frente: '--cor-sucesso', fundo: '--cor-sucesso-fundo', tipo: 'texto' },
-  { uso: 'Mensagem de erro na página', frente: '--cor-erro', fundo: '--cor-fundo', tipo: 'texto' },
-  { uso: 'Mensagem de erro em cartões', frente: '--cor-erro', fundo: '--cor-superficie', tipo: 'texto' },
+  { uso: 'Mensagem de erro na página (erro embaixo de um campo)', frente: '--cor-erro', fundo: '--cor-fundo', tipo: 'texto' },
+  { uso: 'Mensagem de erro em cartões e borda de campo com erro', frente: '--cor-erro', fundo: '--cor-superficie', tipo: 'texto' },
   { uso: 'Mensagem de erro na caixa de aviso', frente: '--cor-erro', fundo: '--cor-erro-fundo', tipo: 'texto' },
+  { uso: 'Texto e links dentro da caixa de erro (resumo do formulário)', frente: '--cor-texto', fundo: '--cor-erro-fundo', tipo: 'texto' },
+  { uso: 'Texto dentro da caixa de sucesso (confirmação)', frente: '--cor-texto', fundo: '--cor-sucesso-fundo', tipo: 'texto' },
 
   // Bordas, ícones e foco (mínimo 3:1)
   { uso: 'Borda de campos e controles na página (campo de pesquisa, abas, setas e bolinhas do carrossel)', frente: '--cor-borda', fundo: '--cor-fundo', tipo: 'grafico' },

@@ -12,10 +12,10 @@ usado no site, o script calcula a razão de contraste pela fórmula da WCAG 2.1.
 
 | Tema | Pares conferidos | Reprovados no AA | Menor razão |
 |------|-----------------:|-----------------:|------------:|
-| Tema claro | 32 | 0 | 3,54:1 |
-| Tema escuro | 32 | 0 | 4,09:1 |
-| Alto contraste — claro | 32 | 0 | 7,41:1 |
-| Alto contraste — escuro | 32 | 0 | 10,30:1 |
+| Tema claro | 34 | 0 | 3,54:1 |
+| Tema escuro | 34 | 0 | 4,09:1 |
+| Alto contraste — claro | 34 | 0 | 7,41:1 |
+| Alto contraste — escuro | 34 | 0 | 10,30:1 |
 
 ## Tema claro
 
@@ -42,9 +42,11 @@ usado no site, o script calcula a razão de contraste pela fórmula da WCAG 2.1.
 | Mensagem de sucesso na página | `--cor-sucesso` / `--cor-fundo` | `#17693A` / `#F6F8F9` | 6,32:1 | 4,5:1 | sim | não |
 | Mensagem de sucesso em cartões | `--cor-sucesso` / `--cor-superficie` | `#17693A` / `#FFFFFF` | 6,73:1 | 4,5:1 | sim | não |
 | Mensagem de sucesso na caixa de aviso | `--cor-sucesso` / `--cor-sucesso-fundo` | `#17693A` / `#E2F3E8` | 5,84:1 | 4,5:1 | sim | não |
-| Mensagem de erro na página | `--cor-erro` / `--cor-fundo` | `#B3261E` / `#F6F8F9` | 6,14:1 | 4,5:1 | sim | não |
-| Mensagem de erro em cartões | `--cor-erro` / `--cor-superficie` | `#B3261E` / `#FFFFFF` | 6,54:1 | 4,5:1 | sim | não |
+| Mensagem de erro na página (erro embaixo de um campo) | `--cor-erro` / `--cor-fundo` | `#B3261E` / `#F6F8F9` | 6,14:1 | 4,5:1 | sim | não |
+| Mensagem de erro em cartões e borda de campo com erro | `--cor-erro` / `--cor-superficie` | `#B3261E` / `#FFFFFF` | 6,54:1 | 4,5:1 | sim | não |
 | Mensagem de erro na caixa de aviso | `--cor-erro` / `--cor-erro-fundo` | `#B3261E` / `#FCE9E7` | 5,59:1 | 4,5:1 | sim | não |
+| Texto e links dentro da caixa de erro (resumo do formulário) | `--cor-texto` / `--cor-erro-fundo` | `#14232B` / `#FCE9E7` | 13,75:1 | 4,5:1 | sim | sim |
+| Texto dentro da caixa de sucesso (confirmação) | `--cor-texto` / `--cor-sucesso-fundo` | `#14232B` / `#E2F3E8` | 13,96:1 | 4,5:1 | sim | sim |
 | Borda de campos e controles na página (campo de pesquisa, abas, setas e bolinhas do carrossel) | `--cor-borda` / `--cor-fundo` | `#6B7F8A` / `#F6F8F9` | 3,92:1 | 3:1 | sim | — |
 | Borda de campos, do interruptor e do botão do menu | `--cor-borda` / `--cor-superficie` | `#6B7F8A` / `#FFFFFF` | 4,18:1 | 3:1 | sim | — |
 | Borda de controles no rodapé | `--cor-borda` / `--cor-superficie-2` | `#6B7F8A` / `#E8EDF0` | 3,54:1 | 3:1 | sim | — |
@@ -79,9 +81,11 @@ usado no site, o script calcula a razão de contraste pela fórmula da WCAG 2.1.
 | Mensagem de sucesso na página | `--cor-sucesso` / `--cor-fundo` | `#6FD08C` / `#0E1A20` | 9,33:1 | 4,5:1 | sim | sim |
 | Mensagem de sucesso em cartões | `--cor-sucesso` / `--cor-superficie` | `#6FD08C` / `#16262E` | 8,20:1 | 4,5:1 | sim | sim |
 | Mensagem de sucesso na caixa de aviso | `--cor-sucesso` / `--cor-sucesso-fundo` | `#6FD08C` / `#12301E` | 7,55:1 | 4,5:1 | sim | sim |
-| Mensagem de erro na página | `--cor-erro` / `--cor-fundo` | `#FF8A80` / `#0E1A20` | 7,75:1 | 4,5:1 | sim | sim |
-| Mensagem de erro em cartões | `--cor-erro` / `--cor-superficie` | `#FF8A80` / `#16262E` | 6,81:1 | 4,5:1 | sim | não |
+| Mensagem de erro na página (erro embaixo de um campo) | `--cor-erro` / `--cor-fundo` | `#FF8A80` / `#0E1A20` | 7,75:1 | 4,5:1 | sim | sim |
+| Mensagem de erro em cartões e borda de campo com erro | `--cor-erro` / `--cor-superficie` | `#FF8A80` / `#16262E` | 6,81:1 | 4,5:1 | sim | não |
 | Mensagem de erro na caixa de aviso | `--cor-erro` / `--cor-erro-fundo` | `#FF8A80` / `#3A1614` | 7,05:1 | 4,5:1 | sim | sim |
+| Texto e links dentro da caixa de erro (resumo do formulário) | `--cor-texto` / `--cor-erro-fundo` | `#E8EEF1` / `#3A1614` | 13,74:1 | 4,5:1 | sim | sim |
+| Texto dentro da caixa de sucesso (confirmação) | `--cor-texto` / `--cor-sucesso-fundo` | `#E8EEF1` / `#12301E` | 12,22:1 | 4,5:1 | sim | sim |
 | Borda de campos e controles na página (campo de pesquisa, abas, setas e bolinhas do carrossel) | `--cor-borda` / `--cor-fundo` | `#7C929D` / `#0E1A20` | 5,44:1 | 3:1 | sim | — |
 | Borda de campos, do interruptor e do botão do menu | `--cor-borda` / `--cor-superficie` | `#7C929D` / `#16262E` | 4,78:1 | 3:1 | sim | — |
 | Borda de controles no rodapé | `--cor-borda` / `--cor-superficie-2` | `#7C929D` / `#1E323C` | 4,09:1 | 3:1 | sim | — |
@@ -116,9 +120,11 @@ usado no site, o script calcula a razão de contraste pela fórmula da WCAG 2.1.
 | Mensagem de sucesso na página | `--cor-sucesso` / `--cor-fundo` | `#0B4A22` / `#FFFFFF` | 10,41:1 | 4,5:1 | sim | sim |
 | Mensagem de sucesso em cartões | `--cor-sucesso` / `--cor-superficie` | `#0B4A22` / `#FFFFFF` | 10,41:1 | 4,5:1 | sim | sim |
 | Mensagem de sucesso na caixa de aviso | `--cor-sucesso` / `--cor-sucesso-fundo` | `#0B4A22` / `#FFFFFF` | 10,41:1 | 4,5:1 | sim | sim |
-| Mensagem de erro na página | `--cor-erro` / `--cor-fundo` | `#8C0F0A` / `#FFFFFF` | 9,60:1 | 4,5:1 | sim | sim |
-| Mensagem de erro em cartões | `--cor-erro` / `--cor-superficie` | `#8C0F0A` / `#FFFFFF` | 9,60:1 | 4,5:1 | sim | sim |
+| Mensagem de erro na página (erro embaixo de um campo) | `--cor-erro` / `--cor-fundo` | `#8C0F0A` / `#FFFFFF` | 9,60:1 | 4,5:1 | sim | sim |
+| Mensagem de erro em cartões e borda de campo com erro | `--cor-erro` / `--cor-superficie` | `#8C0F0A` / `#FFFFFF` | 9,60:1 | 4,5:1 | sim | sim |
 | Mensagem de erro na caixa de aviso | `--cor-erro` / `--cor-erro-fundo` | `#8C0F0A` / `#FFFFFF` | 9,60:1 | 4,5:1 | sim | sim |
+| Texto e links dentro da caixa de erro (resumo do formulário) | `--cor-texto` / `--cor-erro-fundo` | `#14232B` / `#FFFFFF` | 16,09:1 | 4,5:1 | sim | sim |
+| Texto dentro da caixa de sucesso (confirmação) | `--cor-texto` / `--cor-sucesso-fundo` | `#14232B` / `#FFFFFF` | 16,09:1 | 4,5:1 | sim | sim |
 | Borda de campos e controles na página (campo de pesquisa, abas, setas e bolinhas do carrossel) | `--cor-borda` / `--cor-fundo` | `#000000` / `#FFFFFF` | 21,00:1 | 3:1 | sim | — |
 | Borda de campos, do interruptor e do botão do menu | `--cor-borda` / `--cor-superficie` | `#000000` / `#FFFFFF` | 21,00:1 | 3:1 | sim | — |
 | Borda de controles no rodapé | `--cor-borda` / `--cor-superficie-2` | `#000000` / `#FFFFFF` | 21,00:1 | 3:1 | sim | — |
@@ -153,9 +159,11 @@ usado no site, o script calcula a razão de contraste pela fórmula da WCAG 2.1.
 | Mensagem de sucesso na página | `--cor-sucesso` / `--cor-fundo` | `#9BE8B0` / `#000000` | 14,56:1 | 4,5:1 | sim | sim |
 | Mensagem de sucesso em cartões | `--cor-sucesso` / `--cor-superficie` | `#9BE8B0` / `#000000` | 14,56:1 | 4,5:1 | sim | sim |
 | Mensagem de sucesso na caixa de aviso | `--cor-sucesso` / `--cor-sucesso-fundo` | `#9BE8B0` / `#000000` | 14,56:1 | 4,5:1 | sim | sim |
-| Mensagem de erro na página | `--cor-erro` / `--cor-fundo` | `#FFB4AB` / `#000000` | 12,37:1 | 4,5:1 | sim | sim |
-| Mensagem de erro em cartões | `--cor-erro` / `--cor-superficie` | `#FFB4AB` / `#000000` | 12,37:1 | 4,5:1 | sim | sim |
+| Mensagem de erro na página (erro embaixo de um campo) | `--cor-erro` / `--cor-fundo` | `#FFB4AB` / `#000000` | 12,37:1 | 4,5:1 | sim | sim |
+| Mensagem de erro em cartões e borda de campo com erro | `--cor-erro` / `--cor-superficie` | `#FFB4AB` / `#000000` | 12,37:1 | 4,5:1 | sim | sim |
 | Mensagem de erro na caixa de aviso | `--cor-erro` / `--cor-erro-fundo` | `#FFB4AB` / `#000000` | 12,37:1 | 4,5:1 | sim | sim |
+| Texto e links dentro da caixa de erro (resumo do formulário) | `--cor-texto` / `--cor-erro-fundo` | `#E8EEF1` / `#000000` | 17,93:1 | 4,5:1 | sim | sim |
+| Texto dentro da caixa de sucesso (confirmação) | `--cor-texto` / `--cor-sucesso-fundo` | `#E8EEF1` / `#000000` | 17,93:1 | 4,5:1 | sim | sim |
 | Borda de campos e controles na página (campo de pesquisa, abas, setas e bolinhas do carrossel) | `--cor-borda` / `--cor-fundo` | `#FFFFFF` / `#000000` | 21,00:1 | 3:1 | sim | — |
 | Borda de campos, do interruptor e do botão do menu | `--cor-borda` / `--cor-superficie` | `#FFFFFF` / `#000000` | 21,00:1 | 3:1 | sim | — |
 | Borda de controles no rodapé | `--cor-borda` / `--cor-superficie-2` | `#FFFFFF` / `#000000` | 21,00:1 | 3:1 | sim | — |

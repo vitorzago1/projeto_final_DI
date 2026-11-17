@@ -80,8 +80,116 @@
        tabindex="-1" permite que o link "pular para o conteúdo" leve o foco até aqui. -->
   <main id="conteudo" tabindex="-1">
     <div class="container py-5">
-      <h1>Contato</h1>
-      <p><mark class="em-construcao">[EM CONSTRUÇÃO — Etapa 3: formulário com nome, e-mail, assunto, mensagem e consentimento, com validação]</mark></p>
+      <div class="row gy-4">
+
+        <div class="col-lg-5">
+          <h1>Contato</h1>
+          <p class="lead">Escreva pelo formulário ou fale comigo pelas redes.</p>
+          <ul class="contato-redes" role="list">
+            <li><a href="https://www.linkedin.com/in/vitor-zago">LinkedIn</a></li>
+            <li><a href="https://github.com/vitorzago1">GitHub</a></li>
+          </ul>
+          <p><mark class="a-preencher">[PREENCHER: e-mail ou outro contato direto, se quiser mostrar]</mark></p>
+        </div>
+
+        <div class="col-lg-7">
+
+          <!-- Aviso de demonstração: o site não tem servidor, então nada é enviado de verdade -->
+          <div class="aviso aviso-info">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+            </svg>
+            <p><strong>Demonstração.</strong> Este site não tem servidor. O formulário confere os dados no seu navegador, mas a mensagem não é enviada nem guardada.</p>
+          </div>
+
+          <!-- ===== FORMULÁRIO DE CONTATO =====
+               A validação é feita por js/formulario.js e js/contato.js.
+               Sem JavaScript valem as regras do próprio HTML (required, type="email", minlength).
+               method="post": os dados nunca vão parar no endereço da página. -->
+          <form class="formulario" id="form-contato" method="post" action="#">
+
+            <!-- Resumo dos erros, mostrado ao tentar enviar com algum campo errado.
+                 role="alert" e aria-live="assertive" fazem o leitor de tela ler na hora. -->
+            <div class="aviso aviso-erro" id="contato-resumo" role="alert" aria-live="assertive" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+              </svg>
+              <div>
+                <p class="aviso-titulo"></p>
+                <ul class="aviso-lista"></ul>
+              </div>
+            </div>
+
+            <p class="form-text">Todos os campos são obrigatórios.</p>
+
+            <!-- Cada campo tem: um <label> ligado pelo for/id; um parágrafo de erro (id terminado em
+                 "-erro") ligado ao campo por aria-describedby; e, quando há erro, aria-invalid="true"
+                 colocado pelo script. Assim o leitor de tela lê o erro junto com o campo. -->
+            <div class="campo">
+              <label class="form-label" for="nome">Nome</label>
+              <!-- autocomplete diz ao navegador o que o campo espera, para ele sugerir os dados da pessoa -->
+              <input class="form-control" type="text" id="nome" name="nome" autocomplete="name" required aria-describedby="nome-erro">
+              <p class="campo-erro" id="nome-erro"></p>
+            </div>
+
+            <div class="campo">
+              <label class="form-label" for="email">E-mail</label>
+              <input class="form-control" type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-ajuda email-erro">
+              <p class="form-text" id="email-ajuda">Exemplo: nome@exemplo.com</p>
+              <p class="campo-erro" id="email-erro"></p>
+            </div>
+
+            <div class="campo">
+              <label class="form-label" for="assunto">Assunto</label>
+              <select class="form-select" id="assunto" name="assunto" required aria-describedby="assunto-erro">
+                <option value="">Escolha um assunto</option>
+                <option>Novo site</option>
+                <option>Projeto com IA</option>
+                <option>Dúvida</option>
+                <option>Outro assunto</option>
+              </select>
+              <p class="campo-erro" id="assunto-erro"></p>
+            </div>
+
+            <div class="campo">
+              <label class="form-label" for="mensagem">Mensagem</label>
+              <textarea class="form-control" id="mensagem" name="mensagem" rows="5" required minlength="10" maxlength="1000" aria-describedby="mensagem-ajuda mensagem-erro"></textarea>
+              <p class="form-text" id="mensagem-ajuda">De 10 a 1000 caracteres.</p>
+              <p class="campo-erro" id="mensagem-erro"></p>
+            </div>
+
+            <div class="campo">
+              <div class="campo-caixa">
+                <!-- data-nome: nome curto do campo, usado no resumo de erros (o label é uma frase longa) -->
+                <input class="caixa" type="checkbox" id="consentimento" name="consentimento" required data-nome="Autorização" aria-describedby="consentimento-erro">
+                <label for="consentimento">Autorizo o uso dos meus dados para responder a esta mensagem.</label>
+              </div>
+              <p class="campo-erro" id="consentimento-erro"></p>
+            </div>
+
+            <button class="btn btn-destaque btn-lg" type="submit">Enviar mensagem</button>
+
+            <!-- Região viva (aria-live="polite"): o script escreve aqui avisos curtos, como
+                 "Enviando a mensagem", e o leitor de tela lê sem interromper a pessoa. -->
+            <p class="visually-hidden" id="contato-anuncio" aria-live="polite"></p>
+          </form>
+
+          <!-- ===== CONFIRMAÇÃO DE ENVIO (simulada) =====
+               Substitui o formulário depois do envio. tabindex="-1" permite que o script leve o
+               foco até aqui, para o leitor de tela ler a confirmação. -->
+          <section class="aviso aviso-sucesso" id="contato-confirmacao" aria-labelledby="confirmacao-titulo" tabindex="-1" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+            <div>
+              <h2 class="aviso-titulo" id="confirmacao-titulo">Mensagem enviada (demonstração)</h2>
+              <p id="confirmacao-texto"></p>
+              <button class="btn btn-contorno" type="button" id="nova-mensagem">Escrever outra mensagem</button>
+            </div>
+          </section>
+
+        </div>
+      </div>
     </div>
   </main>
 
@@ -128,5 +236,10 @@
 
   <!-- Painel de acessibilidade: cria o botão fixo e o painel, e reage às escolhas -->
   <script src="js/acessibilidade.js" defer></script>
+
+  <!-- Funções de validação usadas pelos formulários do site -->
+  <script src="js/formulario.js" defer></script>
+  <!-- Validação do formulário de contato e confirmação de envio simulada -->
+  <script src="js/contato.js" defer></script>
 </body>
 </html>

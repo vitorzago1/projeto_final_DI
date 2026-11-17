@@ -21,7 +21,7 @@
     9. Botões
    10. Cabeçalho
    11. Rodapé
-   12. Campos de formulário
+   12. Formulários: campos, mensagens de erro e avisos
    13. Início: apresentação
    14. Carrossel
    15. Seções da página Início e "Como eu trabalho"
@@ -211,6 +211,7 @@
   --bs-secondary-bg: var(--cor-superficie-2);
   --bs-tertiary-bg: var(--cor-superficie);
   --bs-border-color: var(--cor-borda-suave);
+  --bs-code-color: var(--cor-texto);
 
   --bs-body-font-family: var(--fonte-texto);
   --bs-body-font-size: var(--tamanho-base);
@@ -285,6 +286,9 @@ input:focus-visible,
 .nav-link:focus-visible,
 .navbar-toggler:focus-visible,
 .form-control:focus-visible,
+.form-select:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
 .btn-check:focus-visible + .btn {
   outline: 3px solid var(--cor-foco);
   outline-offset: 2px;
@@ -462,7 +466,7 @@ input:focus-visible,
 }
 
 
-/* 12. Campos de formulário
+/* 12. Formulários: campos, mensagens de erro e avisos (Projetos, Contato, Entrar)
    --------------------------------------------------------------------------
    O formato vem da classe .form-control do Bootstrap; aqui entram as cores.
    A borda usa --cor-borda, que tem contraste de pelo menos 3:1 com o fundo
@@ -487,6 +491,233 @@ input:focus-visible,
 .form-text {
   font-size: var(--tamanho-pequeno);
   color: var(--cor-texto-2);
+}
+
+/* Lista de opções (<select>). Usa background-color, e não background, para
+   não apagar a setinha que o Bootstrap desenha no canto do campo. */
+.form-select,
+.form-select:focus {
+  background-color: var(--cor-superficie);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+  box-shadow: none;
+}
+
+textarea.form-control {
+  min-height: 8rem;
+}
+
+/* Espaço entre um campo e o próximo */
+.campo {
+  margin-bottom: 1.25rem;
+}
+
+/* Caixa de seleção com o texto ao lado */
+.campo-caixa {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+}
+
+.campo-caixa label {
+  cursor: pointer;
+}
+
+/* Caixa de seleção desenhada com as cores do site, do mesmo jeito que o
+   interruptor do painel: "appearance: none" tira o desenho do navegador e o
+   "V" de marcado é feito com duas bordas de um retângulo girado (::before). */
+.caixa {
+  appearance: none;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.1rem 0 0;
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-borda);
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.caixa::before {
+  content: "";
+  width: 0.8rem;
+  height: 0.45rem;
+  border-left: 3px solid var(--cor-sobre-marca);
+  border-bottom: 3px solid var(--cor-sobre-marca);
+  transform: translateY(-0.1rem) rotate(-45deg) scale(0);   /* escondido enquanto desmarcada */
+}
+
+.caixa:checked {
+  background: var(--cor-marca);
+  border-color: var(--cor-marca);
+}
+
+.caixa:checked::before {
+  transform: translateY(-0.1rem) rotate(-45deg) scale(1);
+}
+
+/* Campo com erro: a borda muda de cor e engrossa (a sombra interna soma 1px
+   sem mudar o tamanho do campo). O erro nunca depende só da cor: a mensagem
+   escrita e o ícone aparecem logo abaixo. */
+.form-control[aria-invalid="true"],
+.form-select[aria-invalid="true"],
+.caixa[aria-invalid="true"] {
+  border-color: var(--cor-erro);
+  box-shadow: inset 0 0 0 1px var(--cor-erro);
+}
+
+/* Mensagem de erro de um campo. Fica vazia (e escondida) até o script escrever nela. */
+.campo-erro {
+  display: flex;
+  gap: 0.375rem;
+  margin: 0.375rem 0 0;
+  font-size: var(--tamanho-pequeno);
+  font-weight: 600;
+  color: var(--cor-erro);
+}
+
+.campo-erro:empty {
+  display: none;
+}
+
+/* Ícone de exclamação antes da mensagem. "mask" recorta o desenho do ícone
+   sobre um quadrado pintado com a cor do texto (currentColor); assim o
+   ícone acompanha a cor de erro de cada tema. */
+.campo-erro::before {
+  content: "";
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  margin-top: 0.2em;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Avisos: caixa com um ícone à esquerda e o texto à direita.
+   .aviso-info     informação (aviso de demonstração)
+   .aviso-erro     resumo dos erros do formulário
+   .aviso-sucesso  confirmação
+   Além da cor, cada tipo tem o seu ícone e o seu texto. */
+.aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--cor-superficie-2);
+  border: 1px solid var(--cor-borda);
+  border-radius: 0.5rem;
+}
+
+.aviso > svg {
+  flex: none;
+  margin-top: 0.2rem;
+}
+
+/* O texto ao lado do ícone pode encolher e quebrar linha. Sem isto, uma palavra
+   longa (um e-mail, por exemplo) alargaria a caixa para fora da tela. */
+.aviso > div,
+.aviso > p {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.aviso p:last-child,
+.aviso dl:last-child {
+  margin-bottom: 0;
+}
+
+.aviso-titulo {
+  margin-bottom: 0.25rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.aviso-lista {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.aviso-lista:empty {
+  display: none;
+}
+
+.aviso-lista a {
+  color: var(--cor-texto);
+  font-weight: 600;
+}
+
+.aviso-erro {
+  background: var(--cor-erro-fundo);
+  border-color: var(--cor-erro);
+}
+
+.aviso-erro > svg,
+.aviso-erro .aviso-titulo {
+  color: var(--cor-erro);
+}
+
+.aviso-sucesso {
+  background: var(--cor-sucesso-fundo);
+  border-color: var(--cor-sucesso);
+}
+
+.aviso-sucesso > svg,
+.aviso-sucesso .aviso-titulo {
+  color: var(--cor-sucesso);
+}
+
+.aviso-sucesso .btn {
+  margin-top: 0.75rem;
+}
+
+/* Trechos de texto "de computador", como os dados de demonstração do login */
+code {
+  padding: 0.1em 0.35em;
+  font-size: 0.95em;
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda-suave);
+  border-radius: 0.25rem;
+}
+
+/* Página Contato: links das redes, lado a lado */
+.contato-redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  font-weight: 600;
+}
+
+/* Página Entrar: coluna estreita e centralizada */
+.login {
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+/* Dados de demonstração: nome à esquerda, valor à direita */
+.login-dados {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0.5rem 0 0;
+}
+
+.login-dados dt {
+  font-weight: 600;
+}
+
+.login-dados dd {
+  min-width: 0;
+  margin: 0;
 }
 
 

@@ -12,7 +12,7 @@ HTML5, CSS3 e JavaScript puro, sem framework de JavaScript e sem etapa de build.
 |------|--------|---------|--------------------|
 | [Bootstrap](https://getbootstrap.com/) | 5.3.9 | MIT | CSS e JavaScript via CDN jsDelivr, com versão fixa e `integrity` |
 | [Atkinson Hyperlegible Next](https://www.brailleinstitute.org/freefont/) (Braille Institute) | arquivo do pacote Fontsource 5.3.0 | SIL Open Font License 1.1 | Arquivo `fontes/atkinson-hyperlegible-next.woff2`; a licença está em `fontes/LICENCA-OFL.txt` |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2 | MIT | Sete ícones colados como SVG no HTML e no JavaScript: `list`, `universal-access-circle`, `x-lg`, `pause-fill`, `play-fill`, `chevron-left`, `chevron-right` |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2 | MIT | Dez ícones colados como SVG no HTML, no CSS e no JavaScript: `list`, `universal-access-circle`, `x-lg`, `pause-fill`, `play-fill`, `chevron-left`, `chevron-right`, `info-circle-fill`, `exclamation-circle-fill`, `check-circle-fill` |
 
 ## Ferramentas de desenvolvimento e teste
 

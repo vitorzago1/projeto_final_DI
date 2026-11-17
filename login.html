@@ -80,8 +80,89 @@
        tabindex="-1" permite que o link "pular para o conteúdo" leve o foco até aqui. -->
   <main id="conteudo" tabindex="-1">
     <div class="container py-5">
-      <h1>Entrar</h1>
-      <p><mark class="em-construcao">[EM CONSTRUÇÃO — Etapa 3: e-mail e senha, mostrar/ocultar senha, "lembrar de mim" e validação]</mark></p>
+      <div class="login">
+        <h1>Entrar</h1>
+
+        <!-- Aviso de demonstração, com os dados para testar -->
+        <div class="aviso aviso-info">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+          </svg>
+          <div>
+            <p><strong>Demonstração.</strong> Este site não tem servidor nem contas de verdade. Para testar, use:</p>
+            <dl class="login-dados">
+              <dt>E-mail</dt>
+              <dd><code>visitante@example.com</code></dd>
+              <dt>Senha</dt>
+              <dd><code>demonstracao</code></dd>
+            </dl>
+          </div>
+        </div>
+
+        <!-- ===== FORMULÁRIO DE LOGIN =====
+             A validação é feita por js/formulario.js e js/login.js.
+             method="post": a senha nunca vai parar no endereço da página. -->
+        <form class="formulario" id="form-login" method="post" action="#">
+
+          <!-- Resumo dos erros. role="alert" e aria-live="assertive" fazem o leitor de tela ler na hora. -->
+          <div class="aviso aviso-erro" id="login-resumo" role="alert" aria-live="assertive" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+            </svg>
+            <div>
+              <p class="aviso-titulo"></p>
+              <ul class="aviso-lista"></ul>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label class="form-label" for="email">E-mail</label>
+            <!-- autocomplete="username": o gerenciador de senhas do navegador reconhece o campo de login -->
+            <input class="form-control" type="email" id="email" name="email" autocomplete="username" required aria-describedby="email-erro">
+            <p class="campo-erro" id="email-erro"></p>
+          </div>
+
+          <div class="campo">
+            <label class="form-label" for="senha">Senha</label>
+            <!-- input-group (Bootstrap) cola o botão "Mostrar" ao lado do campo -->
+            <div class="input-group">
+              <input class="form-control" type="password" id="senha" name="senha" autocomplete="current-password" required minlength="8" aria-describedby="senha-ajuda senha-erro">
+              <!-- type="button" para não enviar o formulário. aria-controls indica o campo que ele altera. -->
+              <button class="btn btn-contorno" type="button" id="mostrar-senha" aria-controls="senha">
+                <span id="mostrar-senha-texto">Mostrar</span><span class="visually-hidden"> senha</span>
+              </button>
+            </div>
+            <p class="form-text" id="senha-ajuda">Pelo menos 8 caracteres.</p>
+            <p class="campo-erro" id="senha-erro"></p>
+          </div>
+
+          <div class="campo">
+            <div class="campo-caixa">
+              <input class="caixa" type="checkbox" id="lembrar" name="lembrar" aria-describedby="lembrar-ajuda">
+              <label for="lembrar">Lembrar de mim</label>
+            </div>
+            <p class="form-text" id="lembrar-ajuda">Guarda só o seu e-mail neste navegador. A senha nunca é guardada.</p>
+          </div>
+
+          <button class="btn btn-destaque btn-lg w-100" type="submit">Entrar</button>
+
+          <!-- Região viva: avisos curtos lidos pelo leitor de tela ("A senha está visível.") -->
+          <p class="visually-hidden" id="login-anuncio" aria-live="polite"></p>
+        </form>
+
+        <!-- ===== RESULTADO DO LOGIN (simulado) ===== -->
+        <section class="aviso aviso-sucesso" id="login-confirmacao" aria-labelledby="login-confirmacao-titulo" tabindex="-1" hidden>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+          </svg>
+          <div>
+            <h2 class="aviso-titulo" id="login-confirmacao-titulo">Você entrou (demonstração)</h2>
+            <p id="login-confirmacao-texto"></p>
+            <button class="btn btn-contorno" type="button" id="sair">Sair</button>
+          </div>
+        </section>
+
+      </div>
     </div>
   </main>
 
@@ -128,5 +209,10 @@
 
   <!-- Painel de acessibilidade: cria o botão fixo e o painel, e reage às escolhas -->
   <script src="js/acessibilidade.js" defer></script>
+
+  <!-- Funções de validação usadas pelos formulários do site -->
+  <script src="js/formulario.js" defer></script>
+  <!-- Validação do login, mostrar/ocultar senha e "lembrar de mim" -->
+  <script src="js/login.js" defer></script>
 </body>
 </html>

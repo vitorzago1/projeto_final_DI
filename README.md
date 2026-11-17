@@ -16,8 +16,8 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 | 0 | Pastas, Git, README, cabeçalho e rodapé, proposta de paleta | `v0.0` | `af6ec56` | pronta |
 | 1 | Variáveis de cor e tipografia, tema claro/escuro, painel de acessibilidade | `v0.1` | `7ea5a56` | pronta |
 | 2 | Início (carrossel + cartões) e Projetos (cartões + pesquisa + abas) | `v0.2` | `e31ea2a` | pronta — textos marcados com `[PREENCHER]` |
-| 2.1 | Correções depois do teste da Etapa 2 (carrossel e setas nas abas) | `v0.2.1` | ver histórico | pronta |
-| 3 | Contato e Login com validação | `v0.3` | — | a fazer |
+| 2.1 | Correções depois do teste da Etapa 2 (carrossel e setas nas abas) | `v0.2.1` | `0ac5b10` | pronta |
+| 3 | Contato e Login com validação | `v0.3` | ver histórico | pronta |
 | 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | — | a fazer |
 | 5 | Documentação, prints, GitHub Pages | `v0.5` | — | a fazer |
 
@@ -61,7 +61,10 @@ O script lê as cores de `css/estilo.css` e gera `docs/contraste.md`.
 │   ├── preferencias.js     Guarda e aplica tema, tamanho do texto etc. (roda antes de a página aparecer)
 │   ├── acessibilidade.js   Painel de acessibilidade (botão fixo em todas as páginas)
 │   ├── carrossel.js        Carrossel da página Início (pausar, setas, bolinhas)
-│   └── projetos.js         Pesquisa e abas da página Projetos
+│   ├── projetos.js         Pesquisa e abas da página Projetos
+│   ├── formulario.js       Validação usada pelos dois formulários
+│   ├── contato.js          Regras do formulário de contato e envio simulado
+│   └── login.js            Regras do login, mostrar/ocultar senha, "lembrar de mim"
 ├── fontes/
 │   ├── atkinson-hyperlegible-next.woff2   Fonte do site
 │   └── LICENCA-OFL.txt                    Licença da fonte
@@ -86,7 +89,7 @@ O script lê as cores de `css/estilo.css` e gera `docs/contraste.md`.
 | HTML5, CSS3, JavaScript | — | Base do site, sem framework e sem etapa de build |
 | [Bootstrap](https://getbootstrap.com/) | 5.3.9 (CDN jsDelivr, versão fixa, com `integrity`) | Grade responsiva, menu, base dos botões |
 | [Atkinson Hyperlegible Next](https://www.brailleinstitute.org/freefont/) | arquivo do pacote Fontsource 5.3.0, licença OFL 1.1 | Fonte do site, servida da pasta `fontes/` |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2, licença MIT | Sete ícones colados como SVG (menu, acessibilidade, fechar, pausar, reproduzir, setas) |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.13.2, licença MIT | Dez ícones colados como SVG (menu, acessibilidade, fechar, pausar, reproduzir, setas, informação, erro, sucesso) |
 | Git | — | Histórico de versões: um commit e uma tag por etapa |
 | Node.js | 22 | Rodar `scripts/contraste.js` |
 | [Playwright](https://playwright.dev/) | — | Testes no navegador e capturas de tela |
@@ -270,7 +273,7 @@ Resultados:
 - **axe-core:** nenhuma violação em 72 verificações (4 páginas × 4 temas × 2 larguras,
   incluindo o aviso de nenhum resultado e o painel de acessibilidade aberto).
 
-### Etapa 2.1 — Correções depois do teste (tag `v0.2.1`)
+### Etapa 2.1 — Correções depois do teste (tag `v0.2.1`, commit `0ac5b10`)
 
 O Vitor testou a Etapa 2 e relatou dois problemas.
 
@@ -305,3 +308,74 @@ mouse parado em cima das imagens, com o mouse entrando e saindo várias vezes e 
 em um botão depois do clique; pausar e reproduzir; a nota de "Reduzir animações"; trocar o
 tema não interfere no carrossel. Para reproduzir o comportamento do Safari, o teste dispara
 o clique sem dar foco ao botão e em seguida usa as setas do teclado, nas abas e no carrossel.
+
+### Etapa 3 — Contato e Login com validação (tag `v0.3`)
+
+As duas páginas são demonstrações: o site não tem servidor, e cada página avisa isso em
+um quadro logo acima do formulário.
+
+**Validação, igual nos dois formulários** (`js/formulario.js`):
+
+1. **Cada campo tem um `<label>`** ligado pelo par `for`/`id`.
+2. **Erro ligado ao campo.** Embaixo de cada campo há um parágrafo de erro, ligado ao campo
+   por `aria-describedby`. Quando o valor está errado, o script escreve a mensagem nesse
+   parágrafo e coloca `aria-invalid="true"` no campo. O leitor de tela lê a mensagem junto
+   com o campo.
+3. **Resumo dos erros** no topo do formulário, com `role="alert"` e
+   `aria-live="assertive"`: o leitor de tela lê na hora. Cada item é um link que leva o foco
+   ao campo.
+4. **Foco no primeiro campo com erro** depois de uma tentativa de envio.
+5. **Erro não depende só da cor:** além da borda vermelha, há um ícone e a mensagem escrita.
+6. **Mensagens específicas**, que dizem o que fazer: "Digite um e-mail completo, como
+   nome@exemplo.com", "A mensagem precisa de pelo menos 10 caracteres. Faltam 8."
+7. **Quando confere:** ao enviar. Depois disso, o erro de um campo some assim que o valor
+   fica certo, enquanto a pessoa digita; quando o último erro é corrigido, o resumo some.
+8. **Sem JavaScript** valem as regras do próprio HTML (`required`, `type="email"`,
+   `minlength`). O script desliga os balões do navegador (`noValidate`) só quando assume a
+   validação.
+9. **`autocomplete`** em todos os campos de dados pessoais (WCAG 1.3.5), para o navegador
+   sugerir o preenchimento.
+
+**Contato** (`contato.html`, `js/contato.js`):
+
+- Campos: nome, e-mail, assunto (lista de opções), mensagem e a caixa de autorização.
+- Envio simulado: o botão trava e mostra "Enviando…" (evita dois envios), uma região
+  `aria-live="polite"` anuncia o envio, e em menos de um segundo o formulário dá lugar à
+  confirmação, que recebe o foco. A confirmação repete o assunto e o e-mail informados e
+  diz que nada foi enviado nem guardado.
+- "Escrever outra mensagem" devolve o formulário limpo, com o foco no primeiro campo.
+
+**Entrar** (`login.html`, `js/login.js`):
+
+- Campos: e-mail e senha. A página mostra os dados de demonstração para testar.
+- **Mostrar e ocultar a senha:** o botão troca o campo entre `password` e `text`, muda o
+  próprio texto ("Mostrar" / "Ocultar") e avisa o leitor de tela por `aria-live`.
+- **Lembrar de mim:** guarda só o e-mail em `localStorage`. **A senha nunca é guardada**,
+  em lugar nenhum; ela é apagada do campo logo depois de cada tentativa.
+- Dados errados: "E-mail ou senha incorretos", sem dizer qual dos dois (o costume em
+  logins, para não ajudar quem tenta adivinhar).
+- O formulário usa `method="post"`: mesmo sem JavaScript, a senha não vai parar no
+  endereço da página.
+- O arquivo avisa que isso não é segurança de verdade: em um site real a senha é
+  conferida no servidor.
+
+**Componentes novos no CSS** (seção 12): caixa de seleção desenhada com as cores do site,
+campo com erro, mensagem de erro com ícone e as caixas de aviso (informação, erro, sucesso).
+
+Resultados:
+
+- **Teste funcional (Playwright), 54 verificações**, todas aprovadas: ligação de cada campo
+  com seu label e seu erro, envio vazio, mensagens, correção em tempo real, resumo, foco,
+  envio simulado, mostrar/ocultar senha, dados certos e errados, "lembrar de mim" e a
+  ausência da senha em `localStorage`, `sessionStorage`, cookies e no endereço da página.
+- **Problemas encontrados e corrigidos durante o teste:**
+  1. A primeira versão conferia cada campo ao sair dele. A mensagem de erro que aparecia
+     empurrava o botão "Enviar" para baixo no meio do clique, e o clique se perdia. A
+     conferência passou a acontecer só no envio.
+  2. Na página Entrar, no celular com o texto em 130%, o e-mail de demonstração não quebrava
+     linha e a página ganhava rolagem lateral. Agora o texto dos avisos quebra.
+- **Contraste:** 136 pares conferidos (34 por tema), nenhum reprovado no AA.
+- **axe-core:** nenhuma violação em 88 verificações (4 temas × 2 larguras), incluindo os
+  estados com erros, dados incorretos e confirmação.
+- **Sem regressão:** os testes do painel de acessibilidade (40) e do carrossel e das abas
+  (27) foram rodados de novo e passaram.
