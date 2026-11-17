@@ -18,6 +18,7 @@ HTML5, CSS3 e JavaScript puro, sem framework de JavaScript e sem etapa de build.
 |------------|--------|----------|
 | Git | — | Histórico de versões: um commit e uma tag por etapa |
 | GitHub | — | Repositório do projeto |
+| GitHub Pages | — | Hospedagem do site publicado (<https://vitorzago1.github.io/projeto_final_DI/>) |
 | Node.js | 22 | Rodar os scripts da pasta `scripts/` |
 | [Playwright](https://playwright.dev/) | 1.63.0 | Abrir o site em um navegador (Chromium) controlado por script: testes, auditorias e capturas de tela |
 | [axe-core](https://github.com/dequelabs/axe-core) | 4.14.1 | Verificação automática de acessibilidade |

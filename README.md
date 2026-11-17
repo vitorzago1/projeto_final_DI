@@ -9,6 +9,10 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 > **Sem backend.** O site não tem servidor nem banco de dados. O login e o formulário de
 > contato são demonstrações que rodam só no navegador, e as páginas avisam isso.
 
+- **Site publicado (GitHub Pages):** <https://vitorzago1.github.io/projeto_final_DI/>
+- **Repositório:** <https://github.com/vitorzago1/projeto_final_DI>
+- **Material para o relatório:** pasta [`docs/`](docs/README.md)
+
 ## Andamento
 
 | Etapa | O que entrega | Tag | Commit | Situação |
@@ -20,8 +24,8 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 | 3 | Contato e Login com validação | `v0.3` | `167e37c` | pronta |
 | 3.1 | Correção das setas nas abas, depois do teste da Etapa 3 | `v0.3.1` | `734ace6` | pronta |
 | 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | `5237f6a` | pronta |
-| 5 | Documentação final e capturas de tela | `v0.5` | ver histórico | pronta |
-| — | Publicação no GitHub Pages | — | — | aguardando a confirmação do Vitor |
+| 5 | Documentação final e capturas de tela | `v0.5` | `b5c1839` | pronta |
+| 5.1 | Publicação: branch `main`, link do repositório no site, GitHub Pages | `v0.5.1` | ver histórico | branch `main` criada; o Pages é ligado pelo Vitor nas configurações do repositório |
 
 ## Como rodar
 
@@ -494,7 +498,7 @@ projetos e validação do próprio navegador funcionam) e os testes das etapas a
 Limites, descritos em `docs/auditoria.md`: não houve teste com leitor de tela de verdade e
 só o Chromium estava disponível para os testes.
 
-### Etapa 5 — Documentação final e capturas de tela (tag `v0.5`)
+### Etapa 5 — Documentação final e capturas de tela (tag `v0.5`, commit `b5c1839`)
 
 Esta etapa não mudou o site: fechou o material de apoio do relatório, na pasta `docs/`.
 O índice está em **`docs/README.md`**.
@@ -544,4 +548,40 @@ O que falta:
 
 - **Textos `[PREENCHER]`**, que dependem do Vitor. Depois de preenchidos, `npm run prints`
   refaz todas as capturas.
-- **Publicação no GitHub Pages**, que só acontece depois da confirmação do Vitor.
+
+### Etapa 5.1 — Publicação no GitHub Pages (tag `v0.5.1`)
+
+GitHub Pages é o serviço do GitHub que transforma os arquivos de um repositório em um site
+com endereço público. Como este site é feito só de arquivos estáticos, não há nada para
+compilar: o Pages entrega os arquivos como estão.
+
+O Vitor confirmou a publicação em 17/11/2026, sabendo que o repositório passa a ser público
+e que os textos `[PREENCHER]` ainda aparecem no site.
+
+O que foi feito:
+
+1. **Branch `main`** criada no GitHub com o mesmo histórico da branch de trabalho. É a
+   linha principal do repositório e a que o Pages publica.
+2. **Link do repositório no cartão "Este portfólio"**, nas páginas Início e Projetos
+   ("Ver o código no GitHub").
+3. **Endereços no topo deste README**: site publicado, repositório e pasta `docs/`.
+4. **Auditorias e capturas refeitas** depois da mudança nos cartões. Contraste: 136 pares,
+   nenhum reprovado. axe-core: nenhuma violação em 88 verificações. Teclado: nenhum
+   problema (Início e Projetos ganharam uma parada do Tab, o link novo). Layout: nenhum
+   problema em 24 combinações. Lighthouse: as mesmas notas da Etapa 4, com Acessibilidade
+   100 nas 16 medições. Os testes das etapas anteriores (149 verificações) passaram.
+
+O que é feito pelo Vitor, nas configurações do repositório no GitHub:
+
+1. **Tornar o repositório público**: *Settings* → *General* → *Danger Zone* →
+   *Change repository visibility*. No plano gratuito do GitHub, o Pages só funciona em
+   repositório público.
+2. **Ligar o Pages**: *Settings* → *Pages* → em *Source*, escolher *Deploy from a branch*;
+   em *Branch*, escolher `main` e `/ (root)`; *Save*.
+3. Esperar um ou dois minutos e abrir <https://vitorzago1.github.io/projeto_final_DI/>.
+
+Depois de publicado, cada novo commit na branch `main` atualiza o site sozinho, em cerca
+de um minuto.
+
+As tags (`v0.0` a `v0.5.1`) são criadas e enviadas pelo Vitor, do computador dele: o
+ambiente em que o código foi escrito não tem permissão para enviar tags ao GitHub.
