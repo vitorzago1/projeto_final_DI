@@ -8,6 +8,15 @@
   <title>Contato — Vitor Zago | Desenvolvimento web e IA</title>
   <meta name="description" content="Fale com Vitor Zago: formulário de contato do portfólio.">
 
+  <!-- Avisa o navegador que o site tem tema claro e escuro (ajusta barras de rolagem e campos nativos) -->
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Ícone que aparece na aba do navegador -->
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+  <!-- Pede a fonte do site logo no início, para o texto não trocar de fonte depois de aparecer -->
+  <link rel="preload" href="fontes/atkinson-hyperlegible-next.woff2" as="font" type="font/woff2" crossorigin>
+
   <!-- Bootstrap 5.3.9 via CDN, com versão fixa.
        "integrity" é uma impressão digital do arquivo: se o arquivo do CDN for alterado,
        o navegador se recusa a carregar. -->
@@ -18,6 +27,11 @@
 
   <!-- Estilos do site. Vem depois do Bootstrap para poder ajustar o que ele define. -->
   <link rel="stylesheet" href="css/estilo.css">
+
+  <!-- Aplica tema, tamanho do texto e demais preferências ANTES de a página aparecer.
+       Sem "defer" de propósito: o navegador roda este script antes de desenhar a página,
+       por isso o tema errado nunca pisca na tela. -->
+  <script src="js/preferencias.js"></script>
 </head>
 <body>
 
@@ -41,7 +55,11 @@
                 data-bs-toggle="collapse" data-bs-target="#menu-principal"
                 aria-controls="menu-principal" aria-expanded="false"
                 aria-label="Abrir ou fechar o menu">
-          <span class="navbar-toggler-icon"></span>
+          <!-- Ícone "três linhas" (Bootstrap Icons). currentColor = cor do texto do botão, em qualquer tema.
+               aria-hidden: o nome do botão já está no aria-label acima. -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+          </svg>
         </button>
 
         <div class="collapse navbar-collapse" id="menu-principal">
@@ -50,7 +68,7 @@
             <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
             <li class="nav-item"><a class="nav-link" href="projetos.html">Projetos</a></li>
             <li class="nav-item"><a class="nav-link active" aria-current="page" href="contato.html">Contato</a></li>
-            <li class="nav-item mt-2 mt-md-0"><a class="btn btn-outline-dark" href="login.html">Entrar</a></li>
+            <li class="nav-item mt-2 mt-md-0"><a class="btn btn-contorno" href="login.html">Entrar</a></li>
           </ul>
         </div>
 
@@ -107,5 +125,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IEB0hGzo9y5Bp9mYanr8Bu"
           crossorigin="anonymous" defer></script>
+
+  <!-- Painel de acessibilidade: cria o botão fixo e o painel, e reage às escolhas -->
+  <script src="js/acessibilidade.js" defer></script>
 </body>
 </html>

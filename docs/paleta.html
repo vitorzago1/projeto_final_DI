@@ -3,145 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Proposta de paleta — Vitor Zago</title>
-  <!-- Página de apoio (não faz parte do site): mostra a paleta proposta aplicada em
-       exemplos de interface e calcula o contraste de cada cor com a fórmula da WCAG 2.1. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;800&display=swap">
+  <title>Paleta — Vitor Zago</title>
+
+  <!-- Página de apoio para o relatório (não faz parte do site).
+       Ela usa o MESMO css/estilo.css do site: cada painel abaixo recebe os atributos de um
+       tema (data-bs-theme e data-contraste) e o JavaScript lê as variáveis de cor que o CSS
+       define para ele. Assim esta página sempre mostra as cores que o site realmente usa. -->
+  <link rel="stylesheet" href="../css/estilo.css">
+
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; padding: 32px; background: #DDE3E7; color: #14232B;
-           font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; line-height: 1.5; }
-    h1 { margin: 0 0 4px; font-size: 28px; font-weight: 800; letter-spacing: -0.01em; }
+           font-family: var(--fonte-texto); line-height: 1.5; }
+    h1 { margin: 0 0 4px; font-size: 28px; }
     .sub { margin: 0 0 24px; font-size: 16px; }
     .grade { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     @media (max-width: 900px) { .grade { grid-template-columns: 1fr; } }
 
     /* Cada painel é pintado só com as variáveis do seu tema */
-    .painel { background: var(--fundo); color: var(--texto); border-radius: 12px; padding: 24px;
-              border: 1px solid var(--borda-suave); }
-    .painel h2 { margin: 0 0 16px; font-size: 20px; font-weight: 800; }
-    .painel h3 { margin: 0 0 8px; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+    .painel { background: var(--cor-fundo); color: var(--cor-texto); border-radius: 12px; padding: 24px;
+              border: 1px solid var(--cor-borda-suave); }
+    .painel h2 { margin: 0 0 16px; font-size: 20px; }
+    .painel h3 { margin: 0 0 8px; font-size: 22px; }
 
     .amostras { list-style: none; margin: 0 0 20px; padding: 0; display: grid;
                 grid-template-columns: 1fr 1fr; gap: 10px 16px; }
     .amostras li { display: flex; gap: 10px; align-items: center; font-size: 14px; line-height: 1.3; }
-    .chip { flex: none; width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--borda); }
+    .chip { flex: none; width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--cor-borda); }
     .amostras b { display: block; font-weight: 600; }
-    .amostras span { color: var(--texto-2); }
+    .amostras span { color: var(--cor-texto-2); }
 
-    .cartao { background: var(--superficie); border: 1px solid var(--borda-suave); border-radius: 10px; padding: 20px; }
+    .cartao { background: var(--cor-superficie); border: 1px solid var(--cor-borda-suave); border-radius: 10px; padding: 20px; }
     .cartao p { margin: 0 0 14px; }
-    .secundario { color: var(--texto-2); font-size: 15px; }
-    .cartao a { color: var(--marca); text-decoration: underline; text-underline-offset: 3px; }
+    .secundario { color: var(--cor-texto-2); font-size: 15px; }
     .acoes { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
     .botao { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 8px; border: 2px solid transparent; }
-    .botao-marca { background: var(--marca); color: var(--sobre-marca); }
-    .botao-destaque { background: var(--destaque); color: var(--sobre-destaque); }
-    .botao-contorno { background: transparent; color: var(--marca); border-color: var(--marca); }
+    .botao-marca { background: var(--cor-marca); color: var(--cor-sobre-marca); }
+    .botao-destaque { background: var(--cor-destaque); color: var(--cor-sobre-destaque); }
+    .botao-contorno { background: transparent; color: var(--cor-marca); border-color: var(--cor-marca); }
     .tags { display: flex; gap: 8px; margin-bottom: 14px; }
-    .tag { background: var(--superficie-2); color: var(--texto); font-size: 14px; padding: 2px 10px; border-radius: 999px; }
-    .tag-destaque { background: transparent; color: var(--destaque-forte); border: 1px solid var(--destaque-forte); }
+    .tag { background: var(--cor-superficie-2); color: var(--cor-texto); font-size: 14px; padding: 2px 10px;
+           border-radius: 999px; border: 1px solid var(--cor-borda-suave); }
+    .tag-destaque { background: transparent; color: var(--cor-destaque-texto); border-color: var(--cor-destaque-texto); }
     label { display: block; font-weight: 600; margin-bottom: 4px; }
     input { font: inherit; width: 100%; padding: 9px 12px; border-radius: 8px; margin-bottom: 14px;
-            background: var(--superficie); color: var(--texto); border: 1px solid var(--borda); }
-    input::placeholder { color: var(--texto-2); opacity: 1; }
-    .aviso { display: flex; gap: 8px; align-items: flex-start; padding: 9px 12px; border-radius: 8px;
-             border: 1px solid currentColor; font-weight: 600; margin: 0 0 8px; }
+            background: var(--cor-superficie); color: var(--cor-texto); border: 1px solid var(--cor-borda); }
+    input::placeholder { color: var(--cor-texto-2); opacity: 1; }
+    .aviso { padding: 9px 12px; border-radius: 8px; border: 1px solid currentColor; font-weight: 600; margin: 0 0 8px; }
     .aviso:last-child { margin-bottom: 0; }
-    .aviso-sucesso { background: var(--sucesso-fundo); color: var(--sucesso); }
-    .aviso-erro { background: var(--erro-fundo); color: var(--erro); }
-    .rodape { margin: 20px 0 0; font-size: 14px; }
+    .aviso-sucesso { background: var(--cor-sucesso-fundo); color: var(--cor-sucesso); }
+    .aviso-erro { background: var(--cor-erro-fundo); color: var(--cor-erro); }
+    .nota { margin: 20px 0 0; font-size: 14px; }
   </style>
 </head>
 <body>
-  <h1>Proposta de paleta — Vitor Zago, desenvolvimento web e IA</h1>
+  <h1>Paleta — Vitor Zago, desenvolvimento web e IA</h1>
   <p class="sub">Cada cor aparece com o código hexadecimal e o contraste calculado (WCAG 2.1). Mínimo AA: 4,5:1 para texto e 3:1 para bordas de campos e ícones.</p>
 
-  <div class="grade" id="grade"></div>
+  <div class="grade">
+    <section class="painel" data-nome="Tema claro" data-bs-theme="light"></section>
+    <section class="painel" data-nome="Tema escuro" data-bs-theme="dark"></section>
+    <section class="painel" data-nome="Alto contraste — claro" data-bs-theme="light" data-contraste="alto"></section>
+    <section class="painel" data-nome="Alto contraste — escuro" data-bs-theme="dark" data-contraste="alto"></section>
+  </div>
 
-  <p class="rodape">Tipografia do exemplo: Atkinson Hyperlegible Next (proposta para a Etapa 1). Os números são calculados por esta própria página.</p>
+  <p class="nota">Cores lidas de css/estilo.css e contrastes calculados por esta própria página. A lista completa de pares está em docs/contraste.md.</p>
 
   <script>
-    // ---- Paleta proposta: os mesmos nomes viram variáveis CSS na Etapa 1 ----
-    const temas = {
-      'Tema claro': {
-        fundo: '#F6F8F9', superficie: '#FFFFFF', 'superficie-2': '#E8EDF0', 'borda-suave': '#D3DBE0',
-        texto: '#14232B', 'texto-2': '#465862', borda: '#6B7F8A',
-        marca: '#0F5E73', 'sobre-marca': '#FFFFFF',
-        destaque: '#F2A20C', 'sobre-destaque': '#14232B', 'destaque-forte': '#8F5400',
-        sucesso: '#17693A', 'sucesso-fundo': '#E2F3E8', erro: '#B3261E', 'erro-fundo': '#FCE9E7',
-      },
-      'Tema escuro': {
-        fundo: '#0E1A20', superficie: '#16262E', 'superficie-2': '#1E323C', 'borda-suave': '#2A404B',
-        texto: '#E8EEF1', 'texto-2': '#A9B8C0', borda: '#7C929D',
-        marca: '#6CC5DD', 'sobre-marca': '#0E1A20',
-        destaque: '#F5B03E', 'sobre-destaque': '#14232B', 'destaque-forte': '#F5B03E',
-        sucesso: '#6FD08C', 'sucesso-fundo': '#12301E', erro: '#FF8A80', 'erro-fundo': '#3A1614',
-      },
-      'Alto contraste — claro': {
-        fundo: '#FFFFFF', superficie: '#FFFFFF', 'superficie-2': '#FFFFFF', 'borda-suave': '#000000',
-        texto: '#000000', 'texto-2': '#1F2A30', borda: '#000000',
-        marca: '#073B49', 'sobre-marca': '#FFFFFF',
-        destaque: '#F2A20C', 'sobre-destaque': '#000000', 'destaque-forte': '#5E3600',
-        sucesso: '#0B4A22', 'sucesso-fundo': '#FFFFFF', erro: '#8C0F0A', 'erro-fundo': '#FFFFFF',
-      },
-      'Alto contraste — escuro': {
-        fundo: '#000000', superficie: '#000000', 'superficie-2': '#000000', 'borda-suave': '#FFFFFF',
-        texto: '#FFFFFF', 'texto-2': '#E3EAEE', borda: '#FFFFFF',
-        marca: '#8FE3F7', 'sobre-marca': '#000000',
-        destaque: '#FFD166', 'sobre-destaque': '#000000', 'destaque-forte': '#FFD166',
-        sucesso: '#9BE8B0', 'sucesso-fundo': '#000000', erro: '#FFB4AB', 'erro-fundo': '#000000',
-      },
-    };
-
-    // Amostras exibidas: [nome, variável da cor, variável do fundo usado na conta, tipo de uso]
-    const amostras = [
-      ['Fundo da página', 'fundo', null],
-      ['Superfície (cartões)', 'superficie', null],
-      ['Texto', 'texto', 'fundo'],
-      ['Texto secundário', 'texto-2', 'fundo'],
-      ['Marca · azul-petróleo', 'marca', 'fundo'],
-      ['Destaque · âmbar', 'destaque', 'sobre-destaque'],
-      ['Âmbar para texto e ícones', 'destaque-forte', 'fundo'],
-      ['Borda de campos', 'borda', 'fundo'],
-      ['Sucesso', 'sucesso', 'fundo'],
-      ['Erro', 'erro', 'fundo'],
+    // Amostras exibidas: [nome, variável da cor, variável usada na conta do contraste]
+    const AMOSTRAS = [
+      ['Fundo da página', '--cor-fundo', null],
+      ['Superfície (cartões)', '--cor-superficie', null],
+      ['Texto', '--cor-texto', '--cor-fundo'],
+      ['Texto secundário', '--cor-texto-2', '--cor-fundo'],
+      ['Marca · azul-petróleo', '--cor-marca', '--cor-fundo'],
+      ['Destaque · âmbar', '--cor-destaque', '--cor-sobre-destaque'],
+      ['Âmbar para texto e ícones', '--cor-destaque-texto', '--cor-fundo'],
+      ['Borda de campos', '--cor-borda', '--cor-fundo'],
+      ['Sucesso', '--cor-sucesso', '--cor-fundo'],
+      ['Erro', '--cor-erro', '--cor-fundo']
     ];
 
-    // ---- Contraste WCAG 2.1 ----
-    // 1) luminância relativa de uma cor (0 = preto, 1 = branco)
+    // ---- Contraste WCAG 2.1 (mesma fórmula de scripts/contraste.js) ----
     function luminancia(hex) {
-      const canais = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
-        .map(v => v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+      const canais = [1, 3, 5].map(function (inicio) {
+        const valor = parseInt(hex.slice(inicio, inicio + 2), 16) / 255;
+        return valor <= 0.04045 ? valor / 12.92 : Math.pow((valor + 0.055) / 1.055, 2.4);
+      });
       return 0.2126 * canais[0] + 0.7152 * canais[1] + 0.0722 * canais[2];
     }
-    // 2) razão entre a cor mais clara e a mais escura (de 1:1 a 21:1)
-    function contraste(a, b) {
-      const [clara, escura] = [luminancia(a), luminancia(b)].sort((x, y) => y - x);
-      return (clara + 0.05) / (escura + 0.05);
+    function contraste(corA, corB) {
+      const maisClara = Math.max(luminancia(corA), luminancia(corB));
+      const maisEscura = Math.min(luminancia(corA), luminancia(corB));
+      return (maisClara + 0.05) / (maisEscura + 0.05);
     }
-    const formata = n => n.toFixed(1).replace('.', ',') + ':1';
+    const formata = (n) => n.toFixed(1).replace('.', ',') + ':1';
 
-    // ---- Monta um painel por tema ----
-    const grade = document.getElementById('grade');
-    let numero = 0;
-    for (const [nome, t] of Object.entries(temas)) {
-      numero++;
-      const painel = document.createElement('section');
-      painel.className = 'painel';
-      for (const [variavel, cor] of Object.entries(t)) painel.style.setProperty('--' + variavel, cor);
+    // ---- Preenche cada painel com as cores do seu tema ----
+    document.querySelectorAll('.painel').forEach(function (painel, indice) {
+      const estilo = getComputedStyle(painel);
+      // lê o valor que o CSS definiu para a variável neste painel (ex.: "#0E1A20")
+      const cor = (variavel) => estilo.getPropertyValue(variavel).trim().toUpperCase();
 
-      const itens = amostras.map(([rotulo, v, contra]) => {
+      const itens = AMOSTRAS.map(function ([rotulo, variavel, contra]) {
         let nota = '';
-        if (contra === 'sobre-destaque') nota = ' · texto escuro por cima ' + formata(contraste(t[v], t[contra]));
-        else if (contra) nota = ' · ' + formata(contraste(t[v], t[contra])) + ' no fundo';
-        return `<li><div class="chip" style="background:${t[v]}"></div><div><b>${rotulo}</b><span>${t[v]}${nota}</span></div></li>`;
+        if (contra === '--cor-sobre-destaque') nota = ' · texto por cima ' + formata(contraste(cor(variavel), cor(contra)));
+        else if (contra) nota = ' · ' + formata(contraste(cor(variavel), cor(contra))) + ' no fundo';
+        return '<li><div class="chip" style="background:' + cor(variavel) + '"></div>' +
+               '<div><b>' + rotulo + '</b><span>' + cor(variavel) + nota + '</span></div></li>';
       }).join('');
 
       painel.innerHTML = `
-        <h2>${nome}</h2>
+        <h2>${painel.dataset.nome}</h2>
         <ul class="amostras">${itens}</ul>
         <div class="cartao">
           <h3>Título de exemplo</h3>
@@ -153,13 +126,12 @@
             <button class="botao botao-contorno" type="button">Botão secundário</button>
           </div>
           <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag tag-destaque">Novo</span></div>
-          <label for="campo-${numero}">Campo de formulário</label>
-          <input id="campo-${numero}" type="text" placeholder="Texto de exemplo">
-          <p class="aviso aviso-sucesso" role="presentation">✓ Mensagem de sucesso (${formata(contraste(t.sucesso, t['sucesso-fundo']))})</p>
-          <p class="aviso aviso-erro" role="presentation">✕ Mensagem de erro (${formata(contraste(t.erro, t['erro-fundo']))})</p>
+          <label for="campo-${indice}">Campo de formulário</label>
+          <input id="campo-${indice}" type="text" placeholder="Texto de exemplo">
+          <p class="aviso aviso-sucesso">✓ Mensagem de sucesso (${formata(contraste(cor('--cor-sucesso'), cor('--cor-sucesso-fundo')))})</p>
+          <p class="aviso aviso-erro">✕ Mensagem de erro (${formata(contraste(cor('--cor-erro'), cor('--cor-erro-fundo')))})</p>
         </div>`;
-      grade.appendChild(painel);
-    }
+    });
   </script>
 </body>
 </html>

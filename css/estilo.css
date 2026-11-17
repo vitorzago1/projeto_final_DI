@@ -4,22 +4,218 @@
    Este arquivo é carregado DEPOIS do Bootstrap, então o que está aqui
    complementa ou ajusta o que o Bootstrap já define.
 
-   Etapa 0: só a estrutura (cabeçalho, rodapé, link de pular, foco).
-   As cores próprias e a tipografia entram na Etapa 1, como variáveis CSS.
+   Como as cores funcionam: cada cor tem um nome (uma "variável CSS", como
+   --cor-fundo). O resto do arquivo só usa os nomes, nunca o código da cor.
+   Trocar de tema é trocar o valor guardado em cada nome — como trocar a
+   lâmpada sem mexer na fiação.
 
    Sumário
-   1. Estrutura da página (rodapé sempre embaixo)
-   2. Link "pular para o conteúdo"
-   3. Foco visível
-   4. Cabeçalho
-   5. Rodapé
-   6. Marcadores de conteúdo pendente
+    1. Fonte
+    2. Variáveis — tema claro
+    3. Variáveis — tema escuro
+    4. Variáveis — alto contraste
+    5. Ligação das variáveis com o Bootstrap
+    6. Base: página, títulos, texto e links
+    7. Foco visível
+    8. Link "pular para o conteúdo"
+    9. Botões
+   10. Cabeçalho
+   11. Rodapé
+   12. Painel de acessibilidade
+   13. Preferências: tamanho do texto, sublinhar links, reduzir animações
+   14. Marcadores de conteúdo pendente
    ========================================================================== */
 
 
-/* 1. Estrutura da página
+/* 1. Fonte
    --------------------------------------------------------------------------
-   O body vira uma coluna com a altura da tela. O <main> estica e ocupa o
+   Atkinson Hyperlegible Next: criada pelo Braille Institute para ser fácil de
+   ler por pessoas com baixa visão (letras parecidas, como "I", "l" e "1",
+   têm desenhos bem diferentes). O arquivo fica na pasta fontes/, então o site
+   não depende de outro servidor para mostrar o texto.
+
+   É uma fonte "variável": um único arquivo contém todos os pesos, do fino
+   (200) ao extranegrito (800). */
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("../fontes/atkinson-hyperlegible-next.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;   /* mostra o texto com uma fonte do sistema enquanto esta carrega */
+}
+
+
+/* 2. Variáveis — tema claro
+   --------------------------------------------------------------------------
+   :root é o elemento <html>, ou seja, vale para a página inteira.
+   O seletor [data-bs-theme="light"] permite forçar o tema claro em um trecho
+   da página (usado em docs/paleta.html).
+
+   Justificativa de cada cor: docs/cores.md.
+   Contraste de cada par: docs/contraste.md (gerado por scripts/contraste.js). */
+:root,
+[data-bs-theme="light"] {
+  color-scheme: light;   /* barras de rolagem e campos nativos em versão clara */
+
+  /* Neutros */
+  --cor-fundo: #F6F8F9;          /* fundo da página */
+  --cor-superficie: #FFFFFF;     /* cartões, cabeçalho, painel */
+  --cor-superficie-2: #E8EDF0;   /* rodapé, etiquetas */
+  --cor-borda-suave: #D3DBE0;    /* linhas divisórias (decorativas) */
+  --cor-borda: #6B7F8A;          /* contorno de campos e controles (mínimo 3:1) */
+  --cor-texto: #14232B;          /* títulos e texto corrido */
+  --cor-texto-2: #465862;        /* texto secundário: legendas, descrições */
+
+  /* Marca: azul-petróleo */
+  --cor-marca: #0F5E73;          /* links, botão principal */
+  --cor-marca-hover: #0A4758;    /* a mesma cor com o mouse em cima */
+  --cor-sobre-marca: #FFFFFF;    /* texto em cima da cor de marca */
+
+  /* Destaque: âmbar. No tema claro só é usado como fundo, nunca como texto. */
+  --cor-destaque: #F2A20C;
+  --cor-destaque-hover: #DE9300;
+  --cor-sobre-destaque: #14232B; /* texto em cima do âmbar */
+  --cor-destaque-texto: #8F5400; /* âmbar escuro, para quando precisa ser texto ou ícone */
+
+  /* Sucesso e erro */
+  --cor-sucesso: #17693A;
+  --cor-sucesso-fundo: #E2F3E8;
+  --cor-erro: #B3261E;
+  --cor-erro-fundo: #FCE9E7;
+
+  /* Contorno de foco do teclado */
+  --cor-foco: #0F5E73;
+
+  --sombra: 0 8px 24px rgba(20, 35, 43, 0.18);
+
+  /* Tipografia */
+  --fonte-texto: "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Escala de tamanhos: cada degrau é 1,25 vez o anterior.
+     "rem" é relativo ao tamanho de texto da página: 1rem = 16px no nível 100%.
+     clamp(mínimo, ideal, máximo) faz o título encolher em telas pequenas. */
+  --tamanho-pequeno: 0.875rem;
+  --tamanho-base: 1rem;
+  --tamanho-lead: 1.25rem;
+  --tamanho-h3: 1.5rem;
+  --tamanho-h2: clamp(1.6rem, 1.35rem + 1vw, 1.95rem);
+  --tamanho-h1: clamp(2.1rem, 1.6rem + 2.2vw, 3.05rem);
+}
+
+
+/* 3. Variáveis — tema escuro
+   --------------------------------------------------------------------------
+   O JavaScript (js/preferencias.js) coloca data-bs-theme="dark" no <html>.
+   É o mesmo atributo que o Bootstrap usa, então os componentes dele também
+   escurecem. Só as cores mudam; todo o resto do CSS continua igual. */
+[data-bs-theme="dark"] {
+  color-scheme: dark;
+
+  --cor-fundo: #0E1A20;          /* azul-carvão, não preto puro */
+  --cor-superficie: #16262E;
+  --cor-superficie-2: #1E323C;
+  --cor-borda-suave: #2A404B;
+  --cor-borda: #7C929D;
+  --cor-texto: #E8EEF1;
+  --cor-texto-2: #A9B8C0;
+
+  --cor-marca: #6CC5DD;          /* versão clara do azul-petróleo */
+  --cor-marca-hover: #93D8EA;
+  --cor-sobre-marca: #0E1A20;
+
+  --cor-destaque: #F5B03E;
+  --cor-destaque-hover: #FFC766;
+  --cor-sobre-destaque: #14232B;
+  --cor-destaque-texto: #F5B03E; /* no escuro o próprio âmbar serve como texto */
+
+  --cor-sucesso: #6FD08C;
+  --cor-sucesso-fundo: #12301E;
+  --cor-erro: #FF8A80;
+  --cor-erro-fundo: #3A1614;
+
+  --cor-foco: #F5B03E;
+
+  --sombra: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+
+/* 4. Variáveis — alto contraste
+   --------------------------------------------------------------------------
+   Ligado pelo painel de acessibilidade (data-contraste="alto" no <html>).
+   Fundos viram branco ou preto puros, as bordas ficam fortes e as cores de
+   marca, destaque, sucesso e erro ganham versões mais intensas.
+   As cores do TEXTO não mudam: continuam as do tema claro ou escuro. */
+[data-contraste="alto"] {
+  --cor-fundo: #FFFFFF;
+  --cor-superficie: #FFFFFF;
+  --cor-superficie-2: #FFFFFF;
+  --cor-borda-suave: #000000;
+  --cor-borda: #000000;
+
+  --cor-marca: #073B49;
+  --cor-marca-hover: #000000;
+
+  --cor-destaque: #F2A20C;
+  --cor-destaque-hover: #FFC14D;   /* aqui clareia em vez de escurecer, para manter 7:1 com o texto */
+  --cor-destaque-texto: #5E3600;
+
+  --cor-sucesso: #0B4A22;
+  --cor-sucesso-fundo: #FFFFFF;
+  --cor-erro: #8C0F0A;
+  --cor-erro-fundo: #FFFFFF;
+
+  --cor-foco: #000000;
+}
+
+/* Alto contraste + tema escuro. Redefine as mesmas variáveis do bloco acima. */
+[data-bs-theme="dark"][data-contraste="alto"] {
+  --cor-fundo: #000000;
+  --cor-superficie: #000000;
+  --cor-superficie-2: #000000;
+  --cor-borda-suave: #FFFFFF;
+  --cor-borda: #FFFFFF;
+
+  --cor-marca: #8FE3F7;
+  --cor-marca-hover: #FFFFFF;
+
+  --cor-destaque: #FFD166;
+  --cor-destaque-hover: #FFE19A;
+  --cor-destaque-texto: #FFD166;
+
+  --cor-sucesso: #9BE8B0;
+  --cor-sucesso-fundo: #000000;
+  --cor-erro: #FFB4AB;
+  --cor-erro-fundo: #000000;
+
+  --cor-foco: #FFD166;
+}
+
+
+/* 5. Ligação das variáveis com o Bootstrap
+   --------------------------------------------------------------------------
+   O Bootstrap também trabalha com variáveis (as que começam com --bs-).
+   Aqui elas passam a apontar para as cores do site. Assim os componentes
+   do Bootstrap acompanham o tema sem precisar reescrever cada um. */
+:root {
+  --bs-body-bg: var(--cor-fundo);
+  --bs-body-color: var(--cor-texto);
+  --bs-emphasis-color: var(--cor-texto);
+  --bs-heading-color: var(--cor-texto);
+  --bs-secondary-color: var(--cor-texto-2);
+  --bs-secondary-bg: var(--cor-superficie-2);
+  --bs-tertiary-bg: var(--cor-superficie);
+  --bs-border-color: var(--cor-borda-suave);
+
+  --bs-body-font-family: var(--fonte-texto);
+  --bs-body-font-size: var(--tamanho-base);
+  --bs-body-line-height: 1.6;
+}
+
+
+/* 6. Base: página, títulos, texto e links
+   -------------------------------------------------------------------------- */
+
+/* O body vira uma coluna com a altura da tela. O <main> estica e ocupa o
    espaço que sobrar; assim o rodapé fica no fim da tela mesmo em páginas
    com pouco conteúdo. */
 body {
@@ -38,8 +234,58 @@ main:focus {
   outline: none;
 }
 
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.015em;   /* títulos grandes ficam melhores com as letras um pouco mais juntas */
+}
 
-/* 2. Link "pular para o conteúdo"
+h1 { font-size: var(--tamanho-h1); }
+h2 { font-size: var(--tamanho-h2); }
+h3 { font-size: var(--tamanho-h3); }
+
+/* Parágrafo de abertura. O limite de largura evita linhas longas demais:
+   "ch" é a largura de um caractere, então 60ch são cerca de 60 letras por linha. */
+.lead {
+  font-size: var(--tamanho-lead);
+  font-weight: 400;
+  max-width: 60ch;
+}
+
+a {
+  color: var(--cor-marca);
+  text-underline-offset: 0.2em;   /* afasta o sublinhado das letras, para não cortar "g", "p", "ç" */
+}
+
+a:hover {
+  color: var(--cor-marca-hover);
+}
+
+
+/* 7. Foco visível
+   --------------------------------------------------------------------------
+   Quem navega pelo teclado precisa enxergar onde está. Todo elemento que
+   recebe foco ganha um contorno de 3px na cor --cor-foco, afastado 2px.
+   O box-shadow do Bootstrap é removido por ter pouco contraste.
+
+   :focus-visible só aparece na navegação por teclado (não ao clicar com o mouse). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible,
+.btn:focus-visible,
+.nav-link:focus-visible,
+.navbar-toggler:focus-visible,
+.btn-check:focus-visible + .btn {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+
+/* 8. Link "pular para o conteúdo"
    --------------------------------------------------------------------------
    Fica fora da tela até receber foco pelo teclado (tecla Tab).
    Não usamos display:none porque isso tiraria o link também do teclado. */
@@ -49,37 +295,86 @@ main:focus {
   left: 0.5rem;
   z-index: 1100;                  /* acima do cabeçalho */
   padding: 0.5rem 1rem;
-  background: var(--bs-body-bg);
-  color: var(--bs-body-color);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
   font-weight: 600;
   border-radius: 0.375rem;
   transform: translateY(-200%);   /* empurra para fora da tela */
 }
 
 .link-pular:focus {
+  color: var(--cor-texto);
   transform: translateY(0);       /* volta para a tela ao receber foco */
 }
 
 
-/* 3. Foco visível
+/* 9. Botões
    --------------------------------------------------------------------------
-   Quem navega pelo teclado precisa enxergar onde está. O contorno usa a
-   cor do próprio texto do elemento (currentColor), que já contrasta com o
-   fundo. O box-shadow do Bootstrap é removido por ser claro demais.
-   Na Etapa 1 a cor do foco vira uma variável do tema. */
-a:focus-visible,
-button:focus-visible,
-.btn:focus-visible,
-.nav-link:focus-visible,
-.navbar-toggler:focus-visible {
-  outline: 3px solid currentColor;
-  outline-offset: 2px;
-  box-shadow: none;
+   O formato vem da classe .btn do Bootstrap. As três classes abaixo só
+   informam as cores, pelas variáveis que o próprio .btn lê.
+
+   .btn-marca     ação comum         (fundo na cor de marca)
+   .btn-destaque  ação principal     (fundo âmbar — no máximo um por tela)
+   .btn-contorno  ação secundária    (só o contorno) */
+.btn {
+  --bs-btn-font-weight: 600;
+  --bs-btn-border-width: 2px;
+}
+
+.btn-marca {
+  --bs-btn-color: var(--cor-sobre-marca);
+  --bs-btn-bg: var(--cor-marca);
+  --bs-btn-border-color: var(--cor-marca);
+  --bs-btn-hover-color: var(--cor-sobre-marca);
+  --bs-btn-hover-bg: var(--cor-marca-hover);
+  --bs-btn-hover-border-color: var(--cor-marca-hover);
+  --bs-btn-active-color: var(--cor-sobre-marca);
+  --bs-btn-active-bg: var(--cor-marca-hover);
+  --bs-btn-active-border-color: var(--cor-marca-hover);
+}
+
+.btn-destaque {
+  --bs-btn-color: var(--cor-sobre-destaque);
+  --bs-btn-bg: var(--cor-destaque);
+  --bs-btn-border-color: var(--cor-destaque);
+  --bs-btn-hover-color: var(--cor-sobre-destaque);
+  --bs-btn-hover-bg: var(--cor-destaque-hover);
+  --bs-btn-hover-border-color: var(--cor-destaque-hover);
+  --bs-btn-active-color: var(--cor-sobre-destaque);
+  --bs-btn-active-bg: var(--cor-destaque-hover);
+  --bs-btn-active-border-color: var(--cor-destaque-hover);
+}
+
+/* No estado "ativo" (página atual ou opção escolhida) o botão de contorno
+   fica preenchido: a diferença é de forma, não só de cor. */
+.btn-contorno {
+  --bs-btn-color: var(--cor-marca);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: var(--cor-marca);
+  --bs-btn-hover-color: var(--cor-sobre-marca);
+  --bs-btn-hover-bg: var(--cor-marca);
+  --bs-btn-hover-border-color: var(--cor-marca);
+  --bs-btn-active-color: var(--cor-sobre-marca);
+  --bs-btn-active-bg: var(--cor-marca);
+  --bs-btn-active-border-color: var(--cor-marca);
 }
 
 
-/* 4. Cabeçalho
+/* 10. Cabeçalho
    -------------------------------------------------------------------------- */
+.cabecalho {
+  background: var(--cor-superficie);
+}
+
+/* Cores do menu, pelas variáveis que o componente navbar do Bootstrap lê */
+.navbar {
+  --bs-navbar-color: var(--cor-texto-2);
+  --bs-navbar-hover-color: var(--cor-texto);
+  --bs-navbar-active-color: var(--cor-texto);
+  --bs-navbar-brand-color: var(--cor-texto);
+  --bs-navbar-brand-hover-color: var(--cor-texto);
+  --bs-navbar-toggler-border-color: var(--cor-borda);
+}
 
 /* A marca tem duas linhas: o nome e, embaixo, o que eu faço */
 .marca {
@@ -91,12 +386,19 @@ button:focus-visible,
 .marca-nome {
   font-size: 1.25rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .marca-descricao {
-  font-size: 0.875rem;
-  color: var(--bs-secondary-color);
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
+/* Botão que abre o menu no celular. O ícone é um SVG que usa "currentColor",
+   isto é, a cor do texto do botão — por isso acompanha qualquer tema. */
+.navbar-toggler {
+  color: var(--cor-texto);
+  padding: 0.375rem 0.625rem;
 }
 
 /* A página atual fica marcada no menu com negrito e uma linha embaixo,
@@ -104,15 +406,17 @@ button:focus-visible,
 .navbar-nav .nav-link.active {
   font-weight: 600;
   text-decoration: underline;
+  text-decoration-color: var(--cor-marca);
   text-decoration-thickness: 2px;
   text-underline-offset: 0.4em;
 }
 
 
-/* 5. Rodapé
+/* 11. Rodapé
    -------------------------------------------------------------------------- */
 .rodape {
   margin-top: 3rem;
+  background: var(--cor-superficie-2);
 }
 
 .rodape-marca {
@@ -123,8 +427,9 @@ button:focus-visible,
 /* Os títulos das colunas são <h2> no HTML (hierarquia correta),
    mas visualmente menores que um h2 de conteúdo. */
 .rodape-titulo {
-  font-size: 1rem;
+  font-size: var(--tamanho-base);
   font-weight: 600;
+  letter-spacing: 0;
   margin-bottom: 0.5rem;
 }
 
@@ -137,19 +442,265 @@ button:focus-visible,
   margin-top: 1.5rem;
   margin-bottom: 0;
   padding-top: 1rem;
-  border-top: 1px solid var(--bs-border-color);
-  font-size: 0.875rem;
-  color: var(--bs-secondary-color);
+  border-top: 1px solid var(--cor-borda-suave);
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
+/* Em telas pequenas, sobra um espaço no fim do rodapé para o botão fixo
+   de acessibilidade não ficar em cima do texto. */
+@media (max-width: 767.98px) {
+  .rodape {
+    padding-bottom: 3.5rem;
+  }
 }
 
 
-/* 6. Marcadores de conteúdo pendente
+/* 12. Painel de acessibilidade
+   --------------------------------------------------------------------------
+   O HTML do painel é criado por js/acessibilidade.js (sem JavaScript o
+   painel não teria função, então ele nem aparece).
+
+   .acess-botao   botão fixo no canto da tela, em todas as páginas
+   .acess-painel  caixa com as opções, aberta pelo botão */
+.acess-botao {
+  position: fixed;               /* preso à janela: não sai do lugar ao rolar a página */
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1080;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;           /* 44px: tamanho confortável para tocar com o dedo */
+  padding: 0.5rem 1rem;
+  background: var(--cor-marca);
+  color: var(--cor-sobre-marca);
+  border: 2px solid var(--cor-superficie);   /* separa o botão do conteúdo que passa por baixo */
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: var(--sombra);
+}
+
+.acess-botao:hover {
+  background: var(--cor-marca-hover);
+}
+
+.acess-painel {
+  position: fixed;
+  right: 1rem;
+  bottom: 4.5rem;                /* logo acima do botão */
+  z-index: 1080;
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 5.5rem);
+  max-height: calc(100dvh - 5.5rem);   /* dvh desconta a barra do navegador no celular */
+  overflow-y: auto;              /* se não couber na tela, o painel ganha rolagem própria */
+  padding: 1rem 1.25rem 1.25rem;
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+  border-radius: 0.75rem;
+  box-shadow: var(--sombra);
+}
+
+/* O atributo "hidden" esconde o painel fechado (inclusive do leitor de tela) */
+.acess-painel[hidden] {
+  display: none;
+}
+
+.acess-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.acess-titulo {
+  margin: 0;
+  font-size: var(--tamanho-lead);
+}
+
+/* O título recebe foco ao abrir o painel (para o leitor de tela anunciar),
+   mas não é clicável, então não mostra contorno. */
+.acess-titulo:focus {
+  outline: none;
+}
+
+.acess-fechar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-right: -0.5rem;
+  background: transparent;
+  color: var(--cor-texto);
+  border: 0;
+  border-radius: 0.5rem;
+}
+
+.acess-fechar:hover {
+  background: var(--cor-superficie-2);
+}
+
+/* <fieldset> agrupa opções relacionadas e <legend> é o nome do grupo */
+.acess-grupo {
+  margin: 0 0 1rem;
+  padding: 0;
+  border: 0;
+}
+
+.acess-grupo legend {
+  float: none;
+  margin-bottom: 0.375rem;
+  font-size: var(--tamanho-base);
+  font-weight: 600;
+}
+
+/* Três opções lado a lado, com a mesma largura */
+.acess-opcoes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.acess-opcoes .btn {
+  padding-inline: 0.25rem;
+}
+
+/* Linha com o nome do ajuste à esquerda e o interruptor à direita */
+.acess-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.75rem;
+}
+
+.acess-linha label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.acess-nota {
+  margin: 0 0 0.5rem;
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
+/* Mensagem que confirma cada mudança ("Tema: escuro."). A altura mínima
+   reserva o espaço, para o painel não "pular" quando a mensagem aparece. */
+.acess-aviso {
+  min-height: 1.4rem;
+  margin: 0.75rem 0 0;
+  font-size: var(--tamanho-pequeno);
+  color: var(--cor-texto-2);
+}
+
+/* Interruptor (liga/desliga) feito sobre uma caixa de seleção comum.
+   "appearance: none" tira o desenho padrão do navegador; o desenho novo é
+   uma pista (o próprio input) com uma bolinha (::before) que desliza.
+   O estado aparece pela posição da bolinha, não só pela cor. */
+.interruptor {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 3rem;
+  height: 1.625rem;
+  margin: 0;
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-borda);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.interruptor::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.2rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--cor-borda);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  transition: left 0.15s;
+}
+
+.interruptor:checked {
+  background: var(--cor-marca);
+  border-color: var(--cor-marca);
+}
+
+.interruptor:checked::before {
+  left: calc(100% - 1.2rem);
+  background: var(--cor-sobre-marca);
+}
+
+.interruptor:disabled {
+  cursor: not-allowed;
+}
+
+/* O painel não faz sentido no papel */
+@media print {
+  .acess {
+    display: none;
+  }
+}
+
+
+/* 13. Preferências: tamanho do texto, sublinhar links, reduzir animações
+   --------------------------------------------------------------------------
+   js/preferencias.js escreve estes atributos no <html> conforme as escolhas
+   feitas no painel de acessibilidade. */
+
+/* Tamanho do texto. Como quase todas as medidas do site estão em "rem",
+   mudar o tamanho da fonte do <html> aumenta tudo junto, na mesma proporção. */
+html[data-fonte="115"] { font-size: 115%; }
+html[data-fonte="130"] { font-size: 130%; }
+
+/* Sublinhar links: inclui os do menu, que normalmente não têm sublinhado.
+   Links com cara de botão (.btn) ficam de fora. */
+[data-links="sublinhados"] a:not(.btn) {
+  text-decoration: underline;
+}
+
+/* Reduzir animações. Vale em dois casos:
+   (a) a pessoa ligou a opção no painel (atributo data-animacoes);
+   (b) o sistema operacional pede menos movimento (prefers-reduced-motion).
+   A duração vira quase zero em vez de zero para os eventos de "fim da
+   transição", que o Bootstrap espera, continuarem acontecendo. */
+[data-animacoes="reduzidas"] *,
+[data-animacoes="reduzidas"] *::before,
+[data-animacoes="reduzidas"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* O mesmo, direto pelo CSS, para funcionar mesmo se o JavaScript não rodar */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* 14. Marcadores de conteúdo pendente
    --------------------------------------------------------------------------
    [EM CONSTRUÇÃO ...] e [PREENCHER: ...] aparecem destacados para ninguém
    esquecer de substituir antes da entrega. */
 .em-construcao,
 .a-preencher {
   padding: 0.125rem 0.375rem;
+  background: var(--cor-destaque);
+  color: var(--cor-sobre-destaque);
   border: 1px dashed currentColor;
   border-radius: 0.25rem;
 }
