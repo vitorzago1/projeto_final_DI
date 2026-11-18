@@ -14,7 +14,7 @@ são documentos de apoio, resultados de testes e capturas de tela.
 | Heurísticas de Nielsen | [`heuristicas.md`](heuristicas.md) | As 10 heurísticas, com exemplos do site (página, elemento e arquivo) e os prints de cada uma |
 | Recursos e componentes por página | [`componentes.md`](componentes.md) | O que cada página tem, como foi feito e o que garante a acessibilidade |
 | Acessibilidade: auditoria | [`auditoria.md`](auditoria.md) | O que foi testado, o que falhou, as correções, o antes e o depois, critérios da WCAG e limites |
-| Acessibilidade: resultados completos | pasta [`auditoria/`](auditoria/) | Relatórios gerados pelos scripts: axe-core, teclado, layout e Lighthouse |
+| Acessibilidade: resultados completos | pasta [`auditoria/`](auditoria/) | Relatórios gerados pelos scripts: axe-core, teclado, layout e Lighthouse (no servidor local e no site publicado) |
 | Capturas de tela | pasta [`prints/`](prints/README.md) | Cada página em 1366px e 390px, nos temas claro e escuro, e as telas de erro, confirmação e painel |
 | Ferramentas, bibliotecas, créditos e IA | [`ferramentas.md`](ferramentas.md) | Versões e licenças, origem de cada imagem e as ferramentas de IA usadas |
 
@@ -30,6 +30,7 @@ script de novo em vez de editar à mão.
 | `auditoria/teclado.md` | `scripts/auditoria-teclado.js` | `npm run auditoria:teclado` |
 | `auditoria/layout.md` | `scripts/auditoria-layout.js` | `npm run auditoria:layout` |
 | `auditoria/lighthouse.md` | `scripts/auditoria-lighthouse.js` | `npm run auditoria:lighthouse` |
+| `auditoria/lighthouse-publicado.md` | `scripts/auditoria-lighthouse.js`, com o endereço do site | `npm run auditoria:publicado` |
 | `prints/` (imagens e `README.md`) | `scripts/prints.js` | `npm run prints` |
 
 ## O que ainda depende do Vitor

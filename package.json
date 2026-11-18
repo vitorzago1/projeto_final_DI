@@ -8,6 +8,7 @@
     "auditoria:teclado": "node scripts/auditoria-teclado.js",
     "auditoria:layout": "node scripts/auditoria-layout.js",
     "auditoria:lighthouse": "node scripts/auditoria-lighthouse.js",
+    "auditoria:publicado": "node scripts/auditoria-lighthouse.js https://vitorzago1.github.io/projeto_final_DI/",
     "auditoria": "npm run contraste && npm run auditoria:axe && npm run auditoria:teclado && npm run auditoria:layout && npm run auditoria:lighthouse",
     "prints": "node scripts/prints.js"
   },

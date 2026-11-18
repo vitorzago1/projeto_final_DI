@@ -192,4 +192,6 @@ Nos testes de cada etapa (descritos no README):
   desses navegadores.
 - **Ferramentas automáticas acham só parte dos problemas.** Clareza dos textos, sentido das
   descrições das imagens e facilidade de uso dependem de avaliação humana.
-- **Nota de Desempenho:** medida em um servidor local. No site publicado pode ser diferente.
+- **Nota de Desempenho:** na Etapa 4 foi medida em um servidor local. Depois da publicação,
+  o Lighthouse foi rodado também no endereço real do site; o resultado está em
+  `auditoria/lighthouse-publicado.md`.

@@ -25,7 +25,8 @@ acessibilidade presente em todas elas. A meta de acessibilidade é a **WCAG 2.1 
 | 3.1 | Correção das setas nas abas, depois do teste da Etapa 3 | `v0.3.1` | `734ace6` | pronta |
 | 4 | Auditoria: contraste, teclado e Lighthouse | `v0.4` | `5237f6a` | pronta |
 | 5 | Documentação final e capturas de tela | `v0.5` | `b5c1839` | pronta |
-| 5.1 | Publicação: branch `main`, link do repositório no site, GitHub Pages | `v0.5.1` | ver histórico | branch `main` criada; o Pages é ligado pelo Vitor nas configurações do repositório |
+| 5.1 | Publicação: branch `main`, link do repositório no site, GitHub Pages | `v0.5.1` | `17427fa` | pronta — site no ar |
+| 5.2 | Conferência do site publicado: testes de uso e Lighthouse no endereço real | `v0.5.2` | ver histórico | pronta |
 
 ## Como rodar
 
@@ -107,7 +108,7 @@ As imagens são gravadas em `docs/prints/`, com a lista delas em `docs/prints/RE
 │   ├── auditoria-axe.js         Regras automáticas de acessibilidade, em todos os temas e estados
 │   ├── auditoria-teclado.js     Percorre cada página com a tecla Tab
 │   ├── auditoria-layout.js      Telas estreitas, texto ampliado e tamanho dos alvos
-│   ├── auditoria-lighthouse.js  Lighthouse nas 4 páginas, temas claro e escuro
+│   ├── auditoria-lighthouse.js  Lighthouse nas 4 páginas, temas claro e escuro (local ou no site publicado)
 │   ├── prints.js                Capturas de tela de cada página e dos estados (erros, painel etc.)
 │   └── apoio.js                 Lista de páginas e temas e servidor local usados pelos scripts
 ├── package.json      Lista as ferramentas de teste e os comandos "npm run"
@@ -119,7 +120,7 @@ As imagens são gravadas em `docs/prints/`, com a lista delas em `docs/prints/RE
     ├── heuristicas.md  As 10 heurísticas de Nielsen, com exemplos do site
     ├── componentes.md  Recursos e componentes de cada página
     ├── auditoria.md    Auditoria da Etapa 4: o que falhou, correções, antes e depois
-    ├── auditoria/      Resultados completos gerados pelos scripts (axe, teclado, layout, Lighthouse)
+    ├── auditoria/      Resultados completos gerados pelos scripts (axe, teclado, layout, Lighthouse local e publicado)
     ├── ferramentas.md  Ferramentas, bibliotecas, créditos de imagens e IAs usadas
     ├── paleta.html     Página que mostra a paleta aplicada, lendo o CSS do site
     ├── paleta.png      Imagem da paleta
@@ -549,7 +550,7 @@ O que falta:
 - **Textos `[PREENCHER]`**, que dependem do Vitor. Depois de preenchidos, `npm run prints`
   refaz todas as capturas.
 
-### Etapa 5.1 — Publicação no GitHub Pages (tag `v0.5.1`)
+### Etapa 5.1 — Publicação no GitHub Pages (tag `v0.5.1`, commit `17427fa`)
 
 GitHub Pages é o serviço do GitHub que transforma os arquivos de um repositório em um site
 com endereço público. Como este site é feito só de arquivos estáticos, não há nada para
@@ -571,17 +572,43 @@ O que foi feito:
    problema em 24 combinações. Lighthouse: as mesmas notas da Etapa 4, com Acessibilidade
    100 nas 16 medições. Os testes das etapas anteriores (149 verificações) passaram.
 
-O que é feito pelo Vitor, nas configurações do repositório no GitHub:
+O que foi feito pelo Vitor, nas configurações do repositório no GitHub:
 
 1. **Tornar o repositório público**: *Settings* → *General* → *Danger Zone* →
    *Change repository visibility*. No plano gratuito do GitHub, o Pages só funciona em
    repositório público.
 2. **Ligar o Pages**: *Settings* → *Pages* → em *Source*, escolher *Deploy from a branch*;
    em *Branch*, escolher `main` e `/ (root)`; *Save*.
-3. Esperar um ou dois minutos e abrir <https://vitorzago1.github.io/projeto_final_DI/>.
 
-Depois de publicado, cada novo commit na branch `main` atualiza o site sozinho, em cerca
-de um minuto.
+O site ficou disponível em <https://vitorzago1.github.io/projeto_final_DI/>. Cada novo
+commit na branch `main` atualiza o site sozinho, em cerca de um minuto.
 
-As tags (`v0.0` a `v0.5.1`) são criadas e enviadas pelo Vitor, do computador dele: o
+As tags (`v0.0` a `v0.5.2`) são criadas e enviadas pelo Vitor, do computador dele: o
 ambiente em que o código foi escrito não tem permissão para enviar tags ao GitHub.
+
+### Etapa 5.2 — Conferência do site publicado (tag `v0.5.2`)
+
+Com o site no ar, os testes foram repetidos no endereço real, em 18/11/2026. Até aqui
+todos tinham sido feitos em um servidor local.
+
+1. **As páginas abrem.** O endereço do site e as quatro páginas respondem, em 1366px e
+   390px de largura, sem erro no console do navegador. O Bootstrap 5.3.9 carrega do CDN
+   com o atributo `integrity`, a fonte e as imagens carregam e não há rolagem lateral.
+   Isso confirma que os caminhos relativos funcionam dentro da pasta
+   `/projeto_final_DI/` do GitHub Pages.
+2. **Testes de uso (Playwright), 21 verificações**, todas aprovadas: link de pular,
+   carrossel passando sozinho e pausando, tema escuro guardado ao trocar de página,
+   pesquisa, setas nas abas, aviso de nenhum resultado, validação e confirmação do
+   contato, login com dados certos e errados, botão "Mostrar" e ausência da senha em
+   `localStorage`, `sessionStorage`, cookies e no endereço da página.
+3. **Lighthouse no site publicado**: nota 100 em Acessibilidade, Boas práticas, SEO e
+   Desempenho nas 16 medições (4 páginas × temas claro e escuro × celular e computador).
+   Resultado completo em `docs/auditoria/lighthouse-publicado.md`.
+4. **HTTPS**: o GitHub Pages entrega o site por conexão segura.
+
+Para repetir a medição do Lighthouse no site publicado: `npm run auditoria:publicado`.
+O script `scripts/auditoria-lighthouse.js` passou a aceitar um endereço; sem endereço,
+continua medindo os arquivos da pasta em um servidor local.
+
+O que não foi conferido: o site em um celular de verdade e em Safari ou Firefox, e o uso
+com leitor de tela. Os limites estão em `docs/auditoria.md`.

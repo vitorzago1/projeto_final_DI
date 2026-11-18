@@ -11,6 +11,10 @@
    Resultado: docs/auditoria/lighthouse.md
    Como rodar: node scripts/auditoria-lighthouse.js   (precisa do Playwright e do Lighthouse)
    O script termina com erro se alguma nota de Acessibilidade ficar abaixo de 95.
+
+   Para medir o site já publicado, passe o endereço:
+     node scripts/auditoria-lighthouse.js https://vitorzago1.github.io/projeto_final_DI/
+   Nesse caso o resultado vai para docs/auditoria/lighthouse-publicado.md.
    ========================================================================== */
 const fs = require('fs');
 const os = require('os');
@@ -18,6 +22,10 @@ const path = require('path');
 const { chromium } = require('playwright');
 const lighthouse = require('lighthouse/core/index.cjs');   // entrada do Lighthouse para scripts com require()
 const { PAGINAS, TEMAS, preferencias, iniciarServidor, gravarDoc } = require('./apoio.js');
+
+// Endereço passado na linha de comando (opcional). Sem ele, o script mede os arquivos
+// desta pasta, servidos por um servidor local.
+const ENDERECO = process.argv[2] ? process.argv[2].replace(/\/?$/, '/') : '';
 
 const PORTA = 9333;            // porta pela qual o Lighthouse controla o navegador
 const META_ACESSIBILIDADE = 95;
@@ -47,7 +55,8 @@ const APARELHOS = [
 ];
 
 (async function () {
-  const servidor = await iniciarServidor();
+  const servidor = ENDERECO ? null : await iniciarServidor();
+  const base = ENDERECO || servidor.url;
 
   // Navegador com perfil próprio e porta de controle aberta para o Lighthouse.
   // "launchPersistentContext" faz o Lighthouse e este script enxergarem o mesmo localStorage.
@@ -68,13 +77,13 @@ const APARELHOS = [
     for (const tema of TEMAS_LIGHTHOUSE) {
       // Grava o tema, como se a pessoa já tivesse escolhido no painel.
       // animacoes: false = site no estado normal, com o carrossel andando.
-      await page.goto(servidor.url + pagina.arquivo);
+      await page.goto(base + pagina.arquivo);
       await page.evaluate(function (prefs) {
         localStorage.setItem('vz-preferencias', JSON.stringify(prefs));
       }, preferencias(tema, { animacoes: false }));
 
       for (const aparelho of APARELHOS) {
-        const resultado = await lighthouse(servidor.url + pagina.arquivo, Object.assign({
+        const resultado = await lighthouse(base + pagina.arquivo, Object.assign({
           port: PORTA,
           output: 'json',
           logLevel: 'error',
@@ -115,6 +124,7 @@ const APARELHOS = [
     '> Arquivo gerado por `scripts/auditoria-lighthouse.js`. Não edite à mão.',
     '',
     'Ferramenta: Lighthouse ' + versao + ', no Chromium. Notas de 0 a 100.',
+    ...(ENDERECO ? ['Site medido: <' + ENDERECO + '>, em ' + new Date().toLocaleDateString('pt-BR') + '.'] : []),
     'Meta do projeto: Acessibilidade igual ou maior que ' + META_ACESSIBILIDADE + ' em todas as páginas, nos temas claro e escuro.',
     '',
     '| Página | Tema | Aparelho simulado | ' + CATEGORIAS.map(function (c) { return c[1]; }).join(' | ') + ' |',
@@ -136,16 +146,24 @@ const APARELHOS = [
     linhas.push('');
   }
 
-  linhas.push(
-    'Sobre a nota de Desempenho: ela depende da máquina e da rede no momento do teste e varia',
-    'alguns pontos de uma medição para outra. Aqui as páginas foram servidas por um servidor local;',
-    'no site publicado os números podem ser diferentes. As outras três categorias não variam.'
-  );
+  if (ENDERECO) {
+    linhas.push(
+      'Sobre a nota de Desempenho: ela depende da máquina e da rede no momento do teste e varia',
+      'alguns pontos de uma medição para outra. Aqui as páginas vieram do site publicado, pela',
+      'internet. As outras três categorias não variam.'
+    );
+  } else {
+    linhas.push(
+      'Sobre a nota de Desempenho: ela depende da máquina e da rede no momento do teste e varia',
+      'alguns pontos de uma medição para outra. Aqui as páginas foram servidas por um servidor local;',
+      'no site publicado os números podem ser diferentes. As outras três categorias não variam.'
+    );
+  }
 
-  gravarDoc('auditoria/lighthouse.md', linhas);
+  gravarDoc(ENDERECO ? 'auditoria/lighthouse-publicado.md' : 'auditoria/lighthouse.md', linhas);
 
   await contexto.close();
-  servidor.fechar();
+  if (servidor) servidor.fechar();
   fs.rmSync(perfil, { recursive: true, force: true });
   if (piorAcessibilidade < META_ACESSIBILIDADE) process.exit(1);
 })();
